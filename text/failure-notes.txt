@@ -1,0 +1,14 @@
+- Failure Detection
+
+First we need a way to detect failures.
+
+Let us assume that at first we have the ring topology.
+Each node checks that their next node is active. Every T seconds, it sends a message to them.
+If they do not get a response in 2D time, several things happen;
+* we have to make a new connection to the next one; this is quite hard?
+  -> perhaps the nodes send a message to the network, and ask the network to connect them to the next one.
+* we broadcast to other nodes that this node is not working.
+  -> the network should also be notified.
+* we elect a new leader, if necessary.
+
+they broadcast that the

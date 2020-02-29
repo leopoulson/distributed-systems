@@ -11,6 +11,14 @@ public class Node extends Thread {
 	private boolean isFailed = false;
 	private Integer leader = -1;
 	private Network network;
+
+	// T is the time interval to perform a failure check
+	// D is the time to wait for a response.
+	// sinceT is the time elapsed since the last failure check
+	private int T = 10;
+	private int D = 3;
+	private int sinceT = 0;
+	private FCState fcState = FCState.Successful;
 	
 	// Neighbouring nodes
 	public List<Node> myNeighbours;
@@ -25,7 +33,10 @@ public class Node extends Thread {
 	// Place for the outgoing messages.
 	// The node might not send a message, hence the option.
 	public Optional<Pair<Integer, String>> outgoingMsg;
-	
+
+	// FCState embodies the state of failure check for the next node.
+	enum FCState { Sent, Waiting, Successful, Failed };
+
 	public Node(int id){
 	
 		this.id = id;
@@ -102,8 +113,7 @@ public class Node extends Thread {
 			isFailed = true;
 		}
 
-
-
+		// Here we should check if it's time to perform a failure check.
 
 		// Pop a message from the queue.
 		// If there is no message, then we do nothing.
@@ -112,6 +122,11 @@ public class Node extends Thread {
 		if (incomingMsg.size() > 0 && !isFailed) {
 			String msg = incomingMsg.remove(0);
 			receiveMsg(msg);
+		}
+
+		// If the last failure check was successful, we increment the time since it happened.
+		if (fcState.equals(FCState.Successful)) {
+			sinceT++;
 		}
 	}
 				
