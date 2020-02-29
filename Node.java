@@ -8,7 +8,7 @@ public class Node extends Thread {
 	private int id;
 	private boolean isParticipant = false;
 	private boolean isLeader = false;
-	private boolean isFailed = false;
+	private boolean hasFailed = false;
 	private Integer leader = -1;
 	private Network network;
 
@@ -29,11 +29,10 @@ public class Node extends Thread {
 	private Node previous;
 
 	// Queues for the incoming messages
-	public List<String> incomingMsgs;
+	public Queue<String> incomingMsgs;
 
 	// Place for the outgoing messages.
-	// The node might not send a message, hence the option.
-	public List<Pair<Integer, String>> outgoingMsgs;
+	public Queue<Pair<Integer, String>> outgoingMsgs;
 
 	// FCState embodies the state of failure check for the next node.
 	enum FCState { Sent, Waiting, Successful, Failed };
@@ -113,7 +112,7 @@ public class Node extends Thread {
 		}
 		else if (action == Action.Fail) {
 			System.out.println("Node " + getNodeId() + " has failed.");
-			isFailed = true;
+			hasFailed = true;
 		}
 
 
@@ -121,14 +120,14 @@ public class Node extends Thread {
 		// If there is no message, then we do nothing.
 		// Also if we have failed, we cannot remove a message from the queue.
 		// TODO: Consider if it's better to handle failure in the receiveMsg function?
-		if (incomingMsgs.size() > 0 && !isFailed) {
-			String msg = incomingMsgs.remove(0);
+		if (incomingMsgs.size() > 0 && !hasFailed) {
+			String msg = incomingMsgs.remove();
 			receiveMsg(msg);
 		}
 
 
 		// Here we perform failure checking operations.
-		if (!isFailed) {
+		if (!hasFailed) {
 			updateFailures();
 		}
 
@@ -143,22 +142,23 @@ public class Node extends Thread {
 
 		List<String> messageTokens = Arrays.asList(m.split(" "));
 
+		Integer parameter = Integer.parseInt(messageTokens.get(1));
+
 		switch (messageTokens.get(0)) {
 			case "elect":
-				handleElection(Integer.parseInt(messageTokens.get(1)));
+				handleElection(parameter);
 				break;
 			case "leader":
-				handleLeader(Integer.parseInt(messageTokens.get(1)));
+				handleLeader(parameter);
 				break;
 			case "failure_check":
-				handleFailureCheck(Integer.parseInt(messageTokens.get(1)));
+				handleFailureCheck(parameter);
 				break;
 			case "failure_response":
-				handleFailureResponse(Integer.parseInt(messageTokens.get(1)));
+				handleFailureResponse(parameter);
+				break;
 		}
 	}
-
-
 
 	public void sendMsg(String m, Integer destination) {
 		/*
@@ -168,7 +168,7 @@ public class Node extends Thread {
 		The remainder of the logic will be implemented in the network class.
 		*/
 
-		if (isFailed) {
+		if (hasFailed) {
 			System.out.println("Node " + getNodeId() + " has failed, so cannot send message `" + m + ".");
 		}
 		else {

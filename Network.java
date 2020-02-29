@@ -18,7 +18,6 @@ enum Action { None, StartElection, Fail }
 public class Network {
 
 	private LinkedHashMap<Integer, Node> nodes;
-	private int round;
 	private int period = 20;
 	private Map<Integer, List<String>> msgsToDeliver; //Integer for the id of the sender and String for the message
 
@@ -38,60 +37,54 @@ public class Network {
 		nodes = createNodes(nodeInfos);
 		buildRing();
 
+		// Initialising message maps.
 		msgsToDeliver = new HashMap<Integer, List<String>>();
 		for (Integer i : nodes.keySet()) {
 			msgsToDeliver.put(i, new LinkedList<>());
 		}
 
 
-		for (int round = 45; round < 120; round++) {
-			 System.out.println("\n\nRound " + round + ".\n");
-
-			for (Node node : nodes.values()) {
-				// Pick what to tell the node to do, based on if there's an election or not.
-				Action action = Action.None;
-				if (electionInfos.keySet().contains(round) && electionInfos.get(round).contains(node.getNodeId()))
-					action = Action.StartElection;
-
-				if (failureInfos.getOrDefault(round, -1).equals(node.getNodeId())) {
-					action = Action.Fail;
-				}
-
-
-				// Now we run the action for the period of time.
-				// If it takes longer than 20 milliseconds it gets cancelled.
-				node.run(action);
-
-				// This part does the joining. It's annoying that we have to put in a try-catch, but whatever
-				try {
-					node.join(period);
-				} catch (InterruptedException e) {
-					System.out.println("Node " + node.getNodeId() + " was interrupted.");
-					e.printStackTrace();
-				}
-
-				// Here we collect the outgoing messages of the nodes.
-				if (node.outgoingMsgs.size() > 0) {
-					// That is, we now have a message from this node.
-					Pair<Integer, String> message = node.outgoingMsgs.get(0);
-					node.outgoingMsgs.remove(0);
-					msgsToDeliver.get(message.x).add(message.y);
-				}
-			}
-
-			// At this point, we deliver the messages of the nodes.
-			for (Map.Entry<Integer, List<String>> entry : msgsToDeliver.entrySet()) {
-				if (entry.getValue().size() > 0) {
-					String msg = entry.getValue().get(0);
-					entry.getValue().remove(0);
-
-					nodes.get(entry.getKey()).incomingMsgs.add(msg);
-
-					// TODO: I'm not sure if this is "synchronous" enough.
-					// nodes.get(entry.getKey()).receiveMsg(msg);
-				}
-			}
+		for (int round = 0; round < 220; round++) {
+			playRound(round);
  		}
+	}
+
+	private void playRound(int roundNumber) {
+		System.out.println("\n\nRound " + roundNumber + ".\n");
+
+		for (Node node : nodes.values()) {
+			// Pick what to tell the node to do, based on if there's an election or not.
+			Action action = Action.None;
+			if (electionInfos.keySet().contains(roundNumber) && electionInfos.get(roundNumber).contains(node.getNodeId()))
+				action = Action.StartElection;
+
+			if (failureInfos.getOrDefault(roundNumber, -1).equals(node.getNodeId())) {
+				action = Action.Fail;
+			}
+
+
+			// Now we run the action for the period of time.
+			// If it takes longer than 20 milliseconds it gets cancelled.
+			node.run(action);
+
+			// This part does the joining. It's annoying that we have to put in a try-catch, but whatever
+			try {
+				node.join(period);
+			} catch (InterruptedException e) {
+				System.out.println("Node " + node.getNodeId() + " was interrupted.");
+				e.printStackTrace();
+			}
+
+			// Here we collect the outgoing messages of the nodes.
+			if (node.outgoingMsgs.size() > 0) {
+				// That is, we now have a message from this node.
+				Pair<Integer, String> message = node.outgoingMsgs.remove();
+				msgsToDeliver.get(message.x).add(message.y);
+			}
+		}
+
+		deliverMessages();
+
 	}
 
    	private Node lookupNodeById(Map<Integer, Node> nodes, Integer nodeId) {
@@ -141,6 +134,39 @@ public class Network {
 		}
 	}
 
+	public synchronized void addMessage(int id, String m) {
+		/*
+		At each round, the network collects all the messages that the nodes want to send to their neighbours. 
+		Implement this logic here.
+		*/
+		}
+	
+	public synchronized void deliverMessages() {
+		/*
+		At each round, the network delivers all the messages that it has collected from the nodes.
+		Implement this logic here.
+		The network must ensure that a node can send only to its neighbours, one message per round per neighbour.
+		*/
+		// At this point, we deliver the messages of the nodes.
+		for (Map.Entry<Integer, List<String>> entry : msgsToDeliver.entrySet()) {
+			if (entry.getValue().size() > 0) {
+				String msg = entry.getValue().get(0);
+				entry.getValue().remove(0);
+
+				nodes.get(entry.getKey()).incomingMsgs.add(msg);
+
+				// TODO: I'm not sure if this is "synchronous" enough.
+				// nodes.get(entry.getKey()).receiveMsg(msg);
+			}
+		}
+	}
+		
+	public synchronized void informNodeFailure(int id) {
+		/*
+		Method to inform the neighbours of a failed node about the event.
+		*/
+		}
+
 	private void parseGraph(String graphFileName) {
 		Scanner sc = null;
 		try {
@@ -159,8 +185,8 @@ public class Network {
 			nodeInfos.add(args);
 		}
 	}
-   		
-   	private void parseElection(String electionFileName)  {
+
+	private void parseElection(String electionFileName)  {
 		Scanner sc = null;
 		electionInfos = new HashMap<>();
 
@@ -220,28 +246,6 @@ public class Network {
 
 
 
-	public synchronized void addMessage(int id, String m) {
-		/*
-		At each round, the network collects all the messages that the nodes want to send to their neighbours. 
-		Implement this logic here.
-		*/
-		}
-	
-	public synchronized void deliverMessages() {
-		/*
-		At each round, the network delivers all the messages that it has collected from the nodes.
-		Implement this logic here.
-		The network must ensure that a node can send only to its neighbours, one message per round per neighbour.
-		*/
-		}
-		
-	public synchronized void informNodeFailure(int id) {
-		/*
-		Method to inform the neighbours of a failed node about the event.
-		*/
-		}
-	
-	
 	public static void main(String args[]) throws IOException, InterruptedException {
 		/*
 		Your main must get the input file as input.

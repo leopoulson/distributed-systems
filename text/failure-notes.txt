@@ -2,8 +2,11 @@
 
 First we need a way to detect failures.
 
-Let us assume that at first we have the ring topology.
-Each node checks that their next node is active. Every T seconds, it sends a message to them.
+The failure detection process is as follows. Every T rounds since the last successful FC, a node pings the next one
+with a `failure_check` message. When a node receives such a message, they respond with a `failure_response` message
+to say that they are indeed active. If no such response is received in 2*d time, then the node sees that the next one
+has failed.
+
 If they do not get a response in 2D time, several things happen;
 * we have to make a new connection to the next one; this is quite hard?
   -> perhaps the nodes send a message to the network, and ask the network to connect them to the next one.
@@ -12,3 +15,10 @@ If they do not get a response in 2D time, several things happen;
 * we elect a new leader, if necessary.
 
 they broadcast that the
+
+- Failure Recovery
+
+We now need to think about how we can recover from a failing node.
+
+We can perform BFS on the system to find the shortest path from one node to another. Now we need to update the nodes
+so that they know to forward the messages of a certain type.
