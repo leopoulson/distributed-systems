@@ -8,6 +8,7 @@ public class Node extends Thread {
 	private int id;
 	private boolean isParticipant = false;
 	private boolean isLeader = false;
+	private boolean isFailed = false;
 	private Integer leader = -1;
 	private Network network;
 	
@@ -96,13 +97,19 @@ public class Node extends Thread {
 		if (action == Action.StartElection) {
 			startElection();
 		}
+		else if (action == Action.Fail) {
+			System.out.println("Node " + getNodeId() + " has failed.");
+			isFailed = true;
+		}
 
-//		System.out.println("Node " + getNodeId() + " is running. Fwd = " + this.next.getNodeId() + " bwd = " + this.previous.getNodeId());
+
 
 
 		// Pop a message from the queue.
 		// If there is no message, then we do nothing.
-		if (incomingMsg.size() > 0) {
+		// Also if we have failed, we cannot remove a message from the queue.
+		// TODO: Consider if it's better to handle failure in the receiveMsg function?
+		if (incomingMsg.size() > 0 && !isFailed) {
 			String msg = incomingMsg.remove(0);
 			receiveMsg(msg);
 		}
@@ -165,8 +172,13 @@ public class Node extends Thread {
 		The remainder of the logic will be implemented in the network class.
 		*/
 
-		System.out.println("Node " + getNodeId() + " sends message `" + m + "` to " + destination + ".");
-		outgoingMsg = Optional.of(new Pair(destination, m));
+		if (isFailed) {
+			System.out.println("Node " + getNodeId() + " has failed, so cannot send message `" + m + ".");
+		}
+		else {
+			System.out.println("Node " + getNodeId() + " sends message `" + m + "` to " + destination + ".");
+			outgoingMsg = Optional.of(new Pair(destination, m));
+		}
 	}
 
 	public void startElection() {

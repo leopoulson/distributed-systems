@@ -13,7 +13,7 @@ Class to simulate the network. System design directions:
 - When a node fails, the network must inform all the node's neighbours about the failure
 */
 
-enum Action { None, StartElection }
+enum Action { None, StartElection, Fail }
 
 public class Network {
 
@@ -24,6 +24,7 @@ public class Network {
 
 	private List<List<Integer>> nodeInfos;
 	private HashMap<Integer, List<Integer>> electionInfos;
+	private HashMap<Integer, Integer> failureInfos;
 	
 	public void NetSimulator(String fileName) throws IOException {
 		/*
@@ -32,6 +33,7 @@ public class Network {
 
 		parseGraph(fileName);
 		parseElection("text/ds_elect.txt");
+		parseFailures("text/ds_fail.txt");
 
 		nodes = createNodes(nodeInfos);
 		buildRing();
@@ -42,7 +44,7 @@ public class Network {
 		}
 
 
-		for (int round = 0; round < 30; round++) {
+		for (int round = 50; round < 201; round++) {
 			 System.out.println("\n\nRound " + round + ".\n");
 
 			for (Node node : nodes.values()) {
@@ -51,10 +53,16 @@ public class Network {
 				if (electionInfos.keySet().contains(round) && electionInfos.get(round).contains(node.getNodeId()))
 					action = Action.StartElection;
 
+				if (failureInfos.getOrDefault(round, -1).equals(node.getNodeId())) {
+					action = Action.Fail;
+				}
+
+
 				// Now we run the action for the period of time.
-				// If it takes longer than 20 seconds it gets cancelled.
+				// If it takes longer than 20 milliseconds it gets cancelled.
 				node.run(action);
 
+				// This part does the joining. It's annoying that we have to put in a try-catch, but whatever
 				try {
 					node.join(period);
 				} catch (InterruptedException e) {
@@ -183,6 +191,39 @@ public class Network {
 			}
 
 			electionInfos.put(key, electors);
+		}
+	}
+
+	private void parseFailures(String failuresFilename) {
+		Scanner sc = null;
+		failureInfos = new HashMap<>();
+
+		try {
+			sc = new Scanner(new File(failuresFilename));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		while (sc.hasNextLine()) {
+			String line = sc.nextLine();
+
+			List<String> args = List.of(line.split(" "));
+			String type = args.get(0);
+			Integer round = Integer.parseInt(args.get(1));
+			Integer node = Integer.parseInt(args.get(2));
+
+			switch (type) {
+				case "ELECT":
+					electionInfos.put(round, Collections.singletonList(node));
+					break;
+				case "FAIL":
+					failureInfos.put(round, node);
+					break;
+			}
+		}
+
+		for (Map.Entry<Integer, Integer> entry : failureInfos.entrySet()) {
+			System.out.println(entry.getKey().toString() + entry.getValue().toString());
 		}
 	}
 
