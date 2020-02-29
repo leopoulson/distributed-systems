@@ -18,6 +18,7 @@ public class Node extends Thread {
 	private int T = 10;
 	private int D = 3;
 	private int sinceT = 0;
+	private int sinceD = 0;
 	private FCState fcState = FCState.Successful;
 	
 	// Neighbouring nodes
@@ -28,11 +29,11 @@ public class Node extends Thread {
 	private Node previous;
 
 	// Queues for the incoming messages
-	public List<String> incomingMsg;
+	public List<String> incomingMsgs;
 
 	// Place for the outgoing messages.
 	// The node might not send a message, hence the option.
-	public Optional<Pair<Integer, String>> outgoingMsg;
+	public List<Pair<Integer, String>> outgoingMsgs;
 
 	// FCState embodies the state of failure check for the next node.
 	enum FCState { Sent, Waiting, Successful, Failed };
@@ -43,7 +44,8 @@ public class Node extends Thread {
 		this.network = network;
 		
 		myNeighbours = new ArrayList<Node>();
-		incomingMsg = new LinkedList<String>();
+		incomingMsgs = new LinkedList<String>();
+		outgoingMsgs = new LinkedList<>();
 
 //		System.out.println("Created node with id " + id + ".");
 	}
@@ -102,7 +104,8 @@ public class Node extends Thread {
 
 	public void run(Action action) {
 		// Reset the outgoing message.
-		outgoingMsg = Optional.empty();
+		// We don't do this. we just want to add
+		//outgoingMsgs = Optional.empty();
 
 		// if told to start an election, start it!
 		if (action == Action.StartElection) {
@@ -113,21 +116,22 @@ public class Node extends Thread {
 			isFailed = true;
 		}
 
-		// Here we should check if it's time to perform a failure check.
 
 		// Pop a message from the queue.
 		// If there is no message, then we do nothing.
 		// Also if we have failed, we cannot remove a message from the queue.
 		// TODO: Consider if it's better to handle failure in the receiveMsg function?
-		if (incomingMsg.size() > 0 && !isFailed) {
-			String msg = incomingMsg.remove(0);
+		if (incomingMsgs.size() > 0 && !isFailed) {
+			String msg = incomingMsgs.remove(0);
 			receiveMsg(msg);
 		}
 
-		// If the last failure check was successful, we increment the time since it happened.
-		if (fcState.equals(FCState.Successful)) {
-			sinceT++;
+
+		// Here we perform failure checking operations.
+		if (!isFailed) {
+			updateFailures();
 		}
+
 	}
 				
 	public void receiveMsg(String m) {
@@ -138,13 +142,85 @@ public class Node extends Thread {
 		System.out.println("Node " + getNodeId() + " receives `" + m + "`.");
 
 		List<String> messageTokens = Arrays.asList(m.split(" "));
-		if (messageTokens.get(0).equals("elect")) {
-//			System.out.println("Node " + getNodeId() + " is electing");
-			handleElection(Integer.parseInt(messageTokens.get(1)));
+
+		switch (messageTokens.get(0)) {
+			case "elect":
+				handleElection(Integer.parseInt(messageTokens.get(1)));
+				break;
+			case "leader":
+				handleLeader(Integer.parseInt(messageTokens.get(1)));
+				break;
+			case "failure_check":
+				handleFailureCheck(Integer.parseInt(messageTokens.get(1)));
+				break;
+			case "failure_response":
+				handleFailureResponse(Integer.parseInt(messageTokens.get(1)));
 		}
-		else if (messageTokens.get(0).equals("leader")) {
-			handleLeader(Integer.parseInt(messageTokens.get(1)));
+	}
+
+
+
+	public void sendMsg(String m, Integer destination) {
+		/*
+		Method that implements the sending of a message by a node.
+		The message must be delivered to its recepients through the network.
+		This method need only implement the logic of the network receiving an outgoing message from a node.
+		The remainder of the logic will be implemented in the network class.
+		*/
+
+		if (isFailed) {
+			System.out.println("Node " + getNodeId() + " has failed, so cannot send message `" + m + ".");
 		}
+		else {
+			System.out.println("Node " + getNodeId() + " sends message `" + m + "` to " + destination + ".");
+			outgoingMsgs.add(new Pair(destination, m));
+		}
+	}
+
+	private void startElection() {
+		System.out.println("Node " + id + " starting election.");
+		isParticipant = true;
+		sendMsg("elect " + getNodeId(), next.getNodeId());
+	}
+
+	private void updateFailures() {
+
+		// First, if we are waiting for a response, increment the failure timer.
+		if (fcState == FCState.Waiting) {
+			sinceD++;
+		}
+
+		// If twice the estimated time to reach a node has passed, we say that the node has failed.
+		if (sinceD > 2 * D) {
+			failFailureCheck();
+		}
+
+		// If T rounds have elapsed since the last successful check, and we haven't
+		// just sent another check, start a new one.
+		if (sinceT > T && fcState.equals(FCState.Successful)) {
+			startFailureCheck();
+		}
+
+		// If the last failure check was successful, we increment the time since it happened.
+		if (fcState.equals(FCState.Successful)) {
+			sinceT++;
+		}
+	}
+
+	private void startFailureCheck() {
+		System.out.println("Node " + id + " starting failure check.");
+
+		// Send the failure check message to the next node.
+		sendMsg("failure_check " + id, next.getNodeId());
+
+		// Update failure check state and reset timer.
+		fcState = FCState.Waiting;
+		sinceD = 0;
+	}
+
+	private void failFailureCheck() {
+		System.out.println("Node " + id + " detects that node " + next.getNodeId() + " has failed.");
+		// do some other stuff
 	}
 
 	private void handleElection(Integer electorId) {
@@ -178,27 +254,17 @@ public class Node extends Thread {
 			sendMsg("leader " + leaderId, next.getNodeId());
 		}
 	}
-		
-	public void sendMsg(String m, Integer destination) {
-		/*
-		Method that implements the sending of a message by a node. 
-		The message must be delivered to its recepients through the network.
-		This method need only implement the logic of the network receiving an outgoing message from a node.
-		The remainder of the logic will be implemented in the network class.
-		*/
 
-		if (isFailed) {
-			System.out.println("Node " + getNodeId() + " has failed, so cannot send message `" + m + ".");
-		}
-		else {
-			System.out.println("Node " + getNodeId() + " sends message `" + m + "` to " + destination + ".");
-			outgoingMsg = Optional.of(new Pair(destination, m));
-		}
+	private void handleFailureCheck(Integer checkerId) {
+		//System.out.println("Node " + getNodeId() + " received failure check from " + checkerId + ".");
+		sendMsg("failure_response " + getNodeId(), checkerId);
 	}
 
-	public void startElection() {
-		System.out.println("Node " + id + " starting election.");
-		isParticipant = true;
-		sendMsg("elect " + getNodeId(), next.getNodeId());
+	private void handleFailureResponse(Integer responderId) {
+		if (responderId.equals(next.getNodeId())) {
+			System.out.println("Node " + getNodeId() + " acknowledges that node " + responderId + " is active.");
+			fcState = FCState.Successful;
+			sinceT = 0;
+		}
 	}
 }

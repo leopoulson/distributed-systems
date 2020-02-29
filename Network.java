@@ -44,7 +44,7 @@ public class Network {
 		}
 
 
-		for (int round = 50; round < 201; round++) {
+		for (int round = 45; round < 120; round++) {
 			 System.out.println("\n\nRound " + round + ".\n");
 
 			for (Node node : nodes.values()) {
@@ -71,10 +71,10 @@ public class Network {
 				}
 
 				// Here we collect the outgoing messages of the nodes.
-				if (node.outgoingMsg.isPresent()) {
+				if (node.outgoingMsgs.size() > 0) {
 					// That is, we now have a message from this node.
-					Pair<Integer, String> message = node.outgoingMsg.get();
-					System.out.println(message.x + "  " + message.y);
+					Pair<Integer, String> message = node.outgoingMsgs.get(0);
+					node.outgoingMsgs.remove(0);
 					msgsToDeliver.get(message.x).add(message.y);
 				}
 			}
@@ -85,22 +85,13 @@ public class Network {
 					String msg = entry.getValue().get(0);
 					entry.getValue().remove(0);
 
-					nodes.get(entry.getKey()).incomingMsg.add(msg);
+					nodes.get(entry.getKey()).incomingMsgs.add(msg);
 
 					// TODO: I'm not sure if this is "synchronous" enough.
 					// nodes.get(entry.getKey()).receiveMsg(msg);
 				}
 			}
  		}
-	}
-
-	private void elect(int round) {
-		if (electionInfos.containsKey(round)){
-			List<Integer> electors = electionInfos.get(round);
-			for (Integer nodeId : electors) {
-				nodes.get(nodeId).startElection();
-			}
-		}
 	}
 
    	private Node lookupNodeById(Map<Integer, Node> nodes, Integer nodeId) {
