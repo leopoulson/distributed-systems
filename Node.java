@@ -35,15 +35,15 @@ public class Node extends Thread {
 	public Queue<Pair<Integer, String>> outgoingMsgs;
 
 	// FCState embodies the state of failure check for the next node.
-	enum FCState { Sent, Waiting, Successful, Failed };
+	enum FCState { Sent, Waiting, Successful, Failed }
 
-	public Node(int id){
+	public Node(int id, Network network){
 	
 		this.id = id;
 		this.network = network;
 		
-		myNeighbours = new ArrayList<Node>();
-		incomingMsgs = new LinkedList<String>();
+		myNeighbours = new ArrayList<>();
+		incomingMsgs = new LinkedList<>();
 		outgoingMsgs = new LinkedList<>();
 
 //		System.out.println("Created node with id " + id + ".");
@@ -134,10 +134,6 @@ public class Node extends Thread {
 	}
 				
 	public void receiveMsg(String m) {
-		/*
-		Method that implements the reception of an incoming message by a node
-		*/
-
 		System.out.println("Node " + getNodeId() + " receives `" + m + "`.");
 
 		List<String> messageTokens = Arrays.asList(m.split(" "));
@@ -156,6 +152,9 @@ public class Node extends Thread {
 				break;
 			case "failure_response":
 				handleFailureResponse(parameter);
+				break;
+			default:
+				// maybe error?
 				break;
 		}
 	}
@@ -245,8 +244,12 @@ public class Node extends Thread {
 	}
 
 	private void handleLeader(Integer leaderId) {
-		if (this.leader == leaderId) {
-			// We don't do anything?
+		if (this.leader.equals(leaderId)) {
+			// If the leader is the current one, we don't do anything
+			if (this.leader.equals(getNodeId())) {
+				// unless it's the node here, in which case we tell the network that our node has been elected as leader.
+				sendMsg("leader_elected " + this.leader, network.networkId);
+			}
 		}
 		else {
 			leader = leaderId;

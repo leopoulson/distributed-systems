@@ -1,3 +1,4 @@
+import java.nio.Buffer;
 import java.util.*;
 import java.io.*;
 import java.util.stream.Collectors;
@@ -24,11 +25,31 @@ public class Network {
 	private List<List<Integer>> nodeInfos;
 	private HashMap<Integer, List<Integer>> electionInfos;
 	private HashMap<Integer, Integer> failureInfos;
-	
-	public void NetSimulator(String fileName) throws IOException {
+
+	public Integer networkId = -1;
+
+	private File logFile;
+	private String logFileName = "log.txt";
+
+	public void NetSimulator(String fileName) {
 		/*
 		Code to call methods for parsing the input file, initiating the system and producing the log can be added here.
 		*/
+
+		// Initialise file.
+		logFile = new File(logFileName);
+		try {
+			BufferedWriter bw = new BufferedWriter(new FileWriter(logFile));
+			bw.write("Part A\n");
+			bw.close();
+		}
+		catch (IOException e) {
+			System.out.println("Couldn't create new file.");
+			e.printStackTrace();
+		}
+
+
+
 
 		parseGraph(fileName);
 		parseElection("text/ds_elect.txt");
@@ -38,13 +59,23 @@ public class Network {
 		buildRing();
 
 		// Initialising message maps.
-		msgsToDeliver = new HashMap<Integer, List<String>>();
+		msgsToDeliver = new HashMap<>();
 		for (Integer i : nodes.keySet()) {
 			msgsToDeliver.put(i, new LinkedList<>());
 		}
 
 
-		for (int round = 0; round < 220; round++) {
+		for (int round = 0; round < 70; round++) {
+			if (round == 50) {
+				try {
+					BufferedWriter bw = new BufferedWriter(new FileWriter(logFile, true));
+					bw.write("\nPart B\n");
+					bw.close();
+				}
+				catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 			playRound(round);
  		}
 	}
@@ -55,7 +86,7 @@ public class Network {
 		for (Node node : nodes.values()) {
 			// Pick what to tell the node to do, based on if there's an election or not.
 			Action action = Action.None;
-			if (electionInfos.keySet().contains(roundNumber) && electionInfos.get(roundNumber).contains(node.getNodeId()))
+			if (electionInfos.containsKey(roundNumber) && electionInfos.get(roundNumber).contains(node.getNodeId()))
 				action = Action.StartElection;
 
 			if (failureInfos.getOrDefault(roundNumber, -1).equals(node.getNodeId())) {
@@ -79,11 +110,46 @@ public class Network {
 			if (node.outgoingMsgs.size() > 0) {
 				// That is, we now have a message from this node.
 				Pair<Integer, String> message = node.outgoingMsgs.remove();
-				msgsToDeliver.get(message.x).add(message.y);
+
+				if (message.x.equals(this.networkId)) {
+					// if the message is sent for the network, intercept it and act
+					processMessage(message.y);
+				}
+				else {
+					addMessage(message.x, message.y);
+				}
 			}
 		}
 
 		deliverMessages();
+	}
+
+	private void processMessage(String m) {
+
+		List<String> messageTokens = Arrays.asList(m.split(" "));
+
+		switch(messageTokens.get(0)) {
+			case "leader_elected":
+				// write to file
+				System.out.println("========== Leader elected received==========");
+				try {
+					BufferedWriter bw = new BufferedWriter(new FileWriter(logFileName, true));
+					bw.write("Leader Node " + messageTokens.get(1) + "\n");
+					bw.close();
+				}
+				catch (IOException e) {
+					System.out.println("Couldn't write to file.");
+					e.printStackTrace();
+				}
+
+				break;
+			default:
+				// something else
+				break;
+		}
+	}
+
+	private void writeLeader() {
 
 	}
 
@@ -102,10 +168,10 @@ public class Network {
 		 *
 		 */
 
-		LinkedHashMap<Integer, Node> nodes = new LinkedHashMap<Integer, Node>();
+		LinkedHashMap<Integer, Node> nodes = new LinkedHashMap<>();
 
 		for (List<Integer> nodeInfo : nodeInfos) {
-			Node node = new Node(nodeInfo.get(0));
+			Node node = new Node(nodeInfo.get(0), this);
 			node.start();
 			nodes.put(node.getNodeId(), node);
 		}
@@ -122,9 +188,6 @@ public class Network {
 		return nodes;
 	}
 
-	// Constructs the ring overlay on the network.
-	// Currently, it's just in the order in which nodes were constructed.
-	// This might have to change in the future?
 	private void buildRing() {
 		// TODO: Rewrite this
 		List<Node> nodes = new ArrayList<>(this.nodes.values());
@@ -134,12 +197,22 @@ public class Network {
 		}
 	}
 
+	// returns the path from a source node to a target node.
+	private List<Node> findPath(Node source, Node target) {
+
+		Map<Integer, List<Integer>> paths = new LinkedHashMap<>();
+		Queue<Integer> queue = new LinkedList<>();
+
+		return null;
+	}
+
 	public synchronized void addMessage(int id, String m) {
 		/*
 		At each round, the network collects all the messages that the nodes want to send to their neighbours. 
 		Implement this logic here.
 		*/
-		}
+		msgsToDeliver.get(id).add(m);
+	}
 	
 	public synchronized void deliverMessages() {
 		/*
@@ -165,7 +238,7 @@ public class Network {
 		/*
 		Method to inform the neighbours of a failed node about the event.
 		*/
-		}
+	}
 
 	private void parseGraph(String graphFileName) {
 		Scanner sc = null;

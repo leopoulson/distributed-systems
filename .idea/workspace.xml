@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="60d5b923-ea9b-447a-b962-2579f3f15fe9" name="Default Changelist" comment="">
+    <list default="true" id="60d5b923-ea9b-447a-b962-2579f3f15fe9" name="Default Changelist" comment="add leader elected messages">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Network.java" beforeDir="false" afterPath="$PROJECT_DIR$/Network.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/Node.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/network/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/network/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/network/Network.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/network/Network.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/text/failure-notes.txt" beforeDir="false" afterPath="$PROJECT_DIR$/text/failure-notes.txt" afterDir="false" />
     </list>
@@ -119,14 +120,23 @@
       <option name="project" value="LOCAL" />
       <updated>1582997610119</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Some small refactoring">
+      <created>1583000249648</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1583000249648</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Nodes acknowledge failure" />
     <MESSAGE value="Framework for failure detection." />
     <MESSAGE value="Successfully perform fail detection." />
-    <option name="LAST_COMMIT_MESSAGE" value="Successfully perform fail detection." />
+    <MESSAGE value="Some small refactoring" />
+    <MESSAGE value="add leader elected messages" />
+    <option name="LAST_COMMIT_MESSAGE" value="add leader elected messages" />
   </component>
   <component name="WindowStateProjectService">
     <state x="240" y="77" key="#Project_Structure" timestamp="1582370917892">
@@ -141,39 +151,43 @@
       <screen x="0" y="0" width="1280" height="800" />
     </state>
     <state x="388" y="167" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1280.800@0.0.1280.800" timestamp="1582387078009" />
-    <state x="273" y="23" width="733" height="777" key="CommitChangelistDialog2" timestamp="1582997609935">
+    <state x="273" y="23" width="733" height="777" key="CommitChangelistDialog2" timestamp="1583857581492">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state x="273" y="23" width="733" height="777" key="CommitChangelistDialog2/0.0.1280.800@0.0.1280.800" timestamp="1582997609935" />
-    <state width="1238" height="50" key="GridCell.Tab.0.bottom" timestamp="1582999903584">
+    <state x="273" y="23" width="733" height="777" key="CommitChangelistDialog2/0.0.1280.800@0.0.1280.800" timestamp="1583857581492" />
+    <state x="128" y="80" key="DiffContextDialog" timestamp="1583856522354">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1238" height="50" key="GridCell.Tab.0.bottom/0.0.1280.800@0.0.1280.800" timestamp="1582999903584" />
-    <state width="1238" height="263" key="GridCell.Tab.0.bottom/0.23.1280.777@0.23.1280.777" timestamp="1582754120947" />
-    <state width="1238" height="50" key="GridCell.Tab.0.center" timestamp="1582999903582">
+    <state x="128" y="80" key="DiffContextDialog/0.0.1280.800@0.0.1280.800" timestamp="1583856522354" />
+    <state width="1238" height="143" key="GridCell.Tab.0.bottom" timestamp="1583857581533">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1238" height="50" key="GridCell.Tab.0.center/0.0.1280.800@0.0.1280.800" timestamp="1582999903582" />
-    <state width="1238" height="263" key="GridCell.Tab.0.center/0.23.1280.777@0.23.1280.777" timestamp="1582754120945" />
-    <state width="1238" height="50" key="GridCell.Tab.0.left" timestamp="1582999903581">
+    <state width="1238" height="143" key="GridCell.Tab.0.bottom/0.0.1280.800@0.0.1280.800" timestamp="1583857581533" />
+    <state width="1238" height="143" key="GridCell.Tab.0.bottom/0.23.1280.777@0.23.1280.777" timestamp="1583857552580" />
+    <state width="1238" height="143" key="GridCell.Tab.0.center" timestamp="1583857581531">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1238" height="50" key="GridCell.Tab.0.left/0.0.1280.800@0.0.1280.800" timestamp="1582999903581" />
-    <state width="1238" height="263" key="GridCell.Tab.0.left/0.23.1280.777@0.23.1280.777" timestamp="1582754120943" />
-    <state width="1238" height="50" key="GridCell.Tab.0.right" timestamp="1582999903582">
+    <state width="1238" height="143" key="GridCell.Tab.0.center/0.0.1280.800@0.0.1280.800" timestamp="1583857581531" />
+    <state width="1238" height="143" key="GridCell.Tab.0.center/0.23.1280.777@0.23.1280.777" timestamp="1583857552577" />
+    <state width="1238" height="143" key="GridCell.Tab.0.left" timestamp="1583857581529">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1238" height="50" key="GridCell.Tab.0.right/0.0.1280.800@0.0.1280.800" timestamp="1582999903582" />
-    <state width="1238" height="263" key="GridCell.Tab.0.right/0.23.1280.777@0.23.1280.777" timestamp="1582754120946" />
+    <state width="1238" height="143" key="GridCell.Tab.0.left/0.0.1280.800@0.0.1280.800" timestamp="1583857581529" />
+    <state width="1238" height="143" key="GridCell.Tab.0.left/0.23.1280.777@0.23.1280.777" timestamp="1583857552576" />
+    <state width="1238" height="143" key="GridCell.Tab.0.right" timestamp="1583857581532">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state width="1238" height="143" key="GridCell.Tab.0.right/0.0.1280.800@0.0.1280.800" timestamp="1583857581532" />
+    <state width="1238" height="143" key="GridCell.Tab.0.right/0.23.1280.777@0.23.1280.777" timestamp="1583857552578" />
     <state x="128" y="23" key="SettingsEditor" timestamp="1582371349929">
       <screen x="0" y="23" width="1280" height="777" />
     </state>
     <state x="128" y="23" key="SettingsEditor/0.23.1280.777@0.23.1280.777" timestamp="1582371349929" />
-    <state x="319" y="228" key="com.intellij.ide.util.TipDialog" timestamp="1582989265666">
-      <screen x="0" y="0" width="1280" height="800" />
+    <state x="319" y="244" key="com.intellij.ide.util.TipDialog" timestamp="1583855574182">
+      <screen x="0" y="23" width="1280" height="777" />
     </state>
     <state x="319" y="228" key="com.intellij.ide.util.TipDialog/0.0.1280.800@0.0.1280.800" timestamp="1582989265666" />
-    <state x="319" y="244" key="com.intellij.ide.util.TipDialog/0.23.1280.777@0.23.1280.777" timestamp="1582651725337" />
+    <state x="319" y="244" key="com.intellij.ide.util.TipDialog/0.23.1280.777@0.23.1280.777" timestamp="1583855574182" />
     <state x="429" y="324" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1582992944769">
       <screen x="0" y="0" width="1280" height="800" />
     </state>

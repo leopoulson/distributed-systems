@@ -14,7 +14,14 @@ If they do not get a response in 2D time, several things happen;
   -> the network should also be notified.
 * we elect a new leader, if necessary.
 
-they broadcast that the
+- On detection of failure
+
+The node should broadcast to every connected node that this node has failed.
+
+Furthermore, the network needs to re-route the bits around
+
+
+they broadcast that the node has failed.
 
 - Failure Recovery
 
