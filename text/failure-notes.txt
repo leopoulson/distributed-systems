@@ -40,5 +40,9 @@ So we have a 'recover' function which takes a node that is known to fail.
 - Computes the shortest path from a node to another, across the hole
 - Puts the fix in the reroute table.
 
+- Redirecting ---
+
+Each node has a map from Int to Int that says if they receive a message with a certain destination, where it should be sent to.
+They lookup the position in the map and send the message there.
 
 

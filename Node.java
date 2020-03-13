@@ -42,6 +42,9 @@ public class Node extends Thread {
 	// This is done separately from the network-given action.
 	private Action internalAction = Action.None;
 
+	// This map tells us where to send a message.
+	// Pre-failure, it is just the place. But after failure, it could be elsewhere.
+	private Map<Integer, Integer> direction;
 
 	// FCState embodies the state of failure check for the next node.
 	enum FCState { Sent, Waiting, Successful, Failed }
@@ -57,7 +60,9 @@ public class Node extends Thread {
 
 		failedNodes = new HashSet<>();
 
-//		System.out.println("Created node with id " + id + ".");
+		direction = new HashMap<>();
+		direction.put(network.networkId, network.networkId);
+
 	}
 	
 	// Basic methods for the Node class
@@ -93,6 +98,7 @@ public class Node extends Thread {
 
 
 		myNeighbours.add(n);
+		direction.put(n.getNodeId(), n.getNodeId());
 //		System.out.println("Added neighbour " + n.getNodeId() + " to node " + this.id + ".");
 		}
 
@@ -156,23 +162,29 @@ public class Node extends Thread {
 		List<String> messageTokens = Arrays.asList(m.split(" "));
 
 		Integer parameter = Integer.parseInt(messageTokens.get(1));
+		Integer destination = Integer.parseInt(messageTokens.get(2));
 
-		switch (messageTokens.get(0)) {
-			case "elect":
-				handleElection(parameter);
-				break;
-			case "leader":
-				handleLeader(parameter);
-				break;
-			case "failure_check":
-				handleFailureCheck(parameter);
-				break;
-			case "failure_response":
-				handleFailureResponse(parameter);
-				break;
-			default:
-				// maybe error?
-				break;
+		if (destination == this.getNodeId()) {
+			switch (messageTokens.get(0)) {
+				case "elect":
+					handleElection(parameter);
+					break;
+				case "leader":
+					handleLeader(parameter);
+					break;
+				case "failure_check":
+					handleFailureCheck(parameter);
+					break;
+				case "failure_response":
+					handleFailureResponse(parameter);
+					break;
+				default:
+					// maybe error?
+					break;
+			}
+		}
+		else {
+			// In here, we want to redirect the message to the desination.
 		}
 	}
 
@@ -186,11 +198,14 @@ public class Node extends Thread {
 
 		if (hasFailed) {
 			System.out.println("Node " + getNodeId() + " has failed, so cannot send message `" + m + ".");
+			return;
 		}
-		else {
-			System.out.println("Node " + getNodeId() + " sends message `" + m + "` to " + destination + ".");
-			outgoingMsgs.add(new Pair(destination, m));
-		}
+
+
+		m = m + " " + destination;
+		System.out.println("Node " + getNodeId() + " sends message `" + m + "` to " + destination + ".");
+		Integer redirectedDest = direction.get(destination);
+		outgoingMsgs.add(new Pair(redirectedDest, m));
 	}
 
 	private void startElection() {
