@@ -25,7 +25,20 @@ they broadcast that the node has failed.
 
 - Failure Recovery
 
-We now need to think about how we can recover from a failing node.
+When a node fails, we need to recover in such a way that the ring structure is maintained.
 
-We can perform BFS on the system to find the shortest path from one node to another. Now we need to update the nodes
-so that they know to forward the messages of a certain type.
+e.g. when 20 fails, we need to make a connection from 18 to 1. This is fine, as we can just go straight through via their connection.
+But when 6 fails, we need a connection from 3 to 7. Less easy, as there is no direct path.
+
+Hence, we have to go /through/ another node. So nodes will now start receiving messages that are not addressed to them.
+If a node receives a message not addressed to them;
+- Lookup the addressee in the 'reroute' table
+- Send it to there.
+
+So we have a 'recover' function which takes a node that is known to fail.
+- It finds out which nodes will be affected by this
+- Computes the shortest path from a node to another, across the hole
+- Puts the fix in the reroute table.
+
+
+

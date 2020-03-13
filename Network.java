@@ -21,6 +21,7 @@ public class Network {
 	private LinkedHashMap<Integer, Node> nodes;
 	private int period = 20;
 	private Map<Integer, List<String>> msgsToDeliver; //Integer for the id of the sender and String for the message
+	private Set<Node> failedNodes;
 
 	private List<List<Integer>> nodeInfos;
 	private HashMap<Integer, List<Integer>> electionInfos;
@@ -56,6 +57,7 @@ public class Network {
 		parseFailures("text/ds_fail.txt");
 
 		nodes = createNodes(nodeInfos);
+		failedNodes = new HashSet<>();
 		buildRing();
 
 		// Initialising message maps.
@@ -65,7 +67,7 @@ public class Network {
 		}
 
 
-		for (int round = 0; round < 70; round++) {
+		for (int round = 50; round < 250; round++) {
 			if (round == 50) {
 				try {
 					BufferedWriter bw = new BufferedWriter(new FileWriter(logFile, true));
@@ -143,14 +145,76 @@ public class Network {
 				}
 
 				break;
+			case "failed_node":
+				System.out.println("===== Network finds out that node " + messageTokens.get(1) + " has failed. =====");
+				Node failed = nodes.get(Integer.parseInt(messageTokens.get(1)));
+				failedNodes.add(failed);
+				recoverFailure(failed);
+				break;
 			default:
 				// something else
 				break;
 		}
 	}
 
-	private void writeLeader() {
+	private void recoverFailure(Node failed) {
+		// Find out the new path to maintain the ring.
+		for (Node node : nodes.values()) {
+			Node newNext;
+			if (node.next.equals(failed)) {
+				newNext = failed.next;
+				Optional<List<Node>> recoverPath = findPath(node, newNext);
+				// At this point, we want to look inside the path.
+				// If it is just of length 2, we don't have to reroute anything.
+				// If it is not, this is harder.
+				if (recoverPath.isPresent()) {
+					System.out.println("New path from " + node.getNodeId() + " to " + newNext.getNodeId() + " via ");
+					for (Node np : recoverPath.get()) {
+						System.out.println(np.getNodeId());
+					}
+				}
+				else {
+					System.out.println("Graph is incomplete!");
+				}
+			}
+		}
+	}
 
+	// returns the path from a source node to a target node.
+	private Optional<List<Node>> findPath(Node source, Node target) {
+
+		Map<Integer, List<Node>> paths = new LinkedHashMap<>();
+		Queue<List<Node>> queue = new LinkedList<>();
+
+		queue.add(new LinkedList<>(Arrays.asList(source)));
+
+		while (queue.size() > 0) {
+			// We need to make sure that this does not loop forever.
+			// We only have 9 nodes, so we need to make sure that queue lengths are not greater than 9.
+			List<Node> path = queue.remove();
+			if (path.size() >= 9) {
+				break;
+			}
+
+			Node end = path.get(path.size() - 1);
+
+			// if the end of this path is our target, return and finish.
+			if (end.equals(target)) {
+				return Optional.of(path);
+			}
+
+			List<Node> neighbours = end.myNeighbours;
+			for (Node neighbour : neighbours) {
+				// if this neighbour has not failed
+				if (!failedNodes.contains(neighbour)) {
+					List<Node> newPath = new LinkedList<>(path);
+					newPath.add(neighbour);
+					queue.add(newPath);
+				}
+			}
+		}
+
+		return Optional.empty();
 	}
 
    	private Node lookupNodeById(Map<Integer, Node> nodes, Integer nodeId) {
@@ -197,14 +261,7 @@ public class Network {
 		}
 	}
 
-	// returns the path from a source node to a target node.
-	private List<Node> findPath(Node source, Node target) {
 
-		Map<Integer, List<Integer>> paths = new LinkedHashMap<>();
-		Queue<Integer> queue = new LinkedList<>();
-
-		return null;
-	}
 
 	public synchronized void addMessage(int id, String m) {
 		/*

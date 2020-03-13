@@ -22,10 +22,15 @@ public class Node extends Thread {
 	private FCState fcState = FCState.Successful;
 	
 	// Neighbouring nodes
+	// TODO Change to Set
+	// TODO Also make sure to add the "implicit" edges
 	public List<Node> myNeighbours;
 
+	// Nodes that this node knows have failed.
+	private Set<Node> failedNodes;
+
 	// Next and previous nodes
-	private Node next;
+	public Node next;
 	private Node previous;
 
 	// Queues for the incoming messages
@@ -45,6 +50,8 @@ public class Node extends Thread {
 		myNeighbours = new ArrayList<>();
 		incomingMsgs = new LinkedList<>();
 		outgoingMsgs = new LinkedList<>();
+
+		failedNodes = new HashSet<>();
 
 //		System.out.println("Created node with id " + id + ".");
 	}
@@ -90,7 +97,10 @@ public class Node extends Thread {
 	}
 
 	public void setNext(Node next) {
+
 		this.next = next;
+		if (!myNeighbours.contains(next))
+			myNeighbours.add(next);
 	}
 
 	public Node getPrevious() {
@@ -218,8 +228,14 @@ public class Node extends Thread {
 	}
 
 	private void failFailureCheck() {
-		System.out.println("Node " + id + " detects that node " + next.getNodeId() + " has failed.");
-		// do some other stuff
+		if (!failedNodes.contains(next))  {
+			System.out.println("Node " + id + " detects that node " + next.getNodeId() + " has failed.");
+			failedNodes.add(next);
+			sendMsg("failed_node " + next.getNodeId(), network.networkId);
+
+			// See if we need to re-elect a leader.
+
+		}
 	}
 
 	private void handleElection(Integer electorId) {
