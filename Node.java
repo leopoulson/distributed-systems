@@ -38,6 +38,11 @@ public class Node extends Thread {
 	// Place for the outgoing messages.
 	public Queue<Pair<Integer, String>> outgoingMsgs;
 
+	// This tells us what the action for the next round should be.
+	// This is done separately from the network-given action.
+	private Action internalAction = Action.None;
+
+
 	// FCState embodies the state of failure check for the next node.
 	enum FCState { Sent, Waiting, Successful, Failed }
 
@@ -116,8 +121,9 @@ public class Node extends Thread {
 		//outgoingMsgs = Optional.empty();
 
 		// if told to start an election, start it!
-		if (action == Action.StartElection) {
+		if (action == Action.StartElection || this.internalAction == Action.StartElection) {
 			startElection();
+			this.internalAction = Action.None;
 		}
 		else if (action == Action.Fail) {
 			// We don't do anything else.
@@ -140,6 +146,7 @@ public class Node extends Thread {
 		if (!hasFailed) {
 			updateFailures();
 		}
+
 
 	}
 				
@@ -241,6 +248,10 @@ public class Node extends Thread {
 			sendMsg("failed_node " + next.getNodeId(), network.networkId);
 
 			// TODO: See if we need to re-elect a leader.
+			if (next.getNodeId() == leader) {
+				// We need to start election /next/ round.
+				this.internalAction = Action.StartElection;
+			}
 
 			// Finally reset the failure checker.
 			// This is because we could be assigned a new node,

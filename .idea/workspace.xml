@@ -3,9 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="60d5b923-ea9b-447a-b962-2579f3f15fe9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Network.java" beforeDir="false" afterPath="$PROJECT_DIR$/Network.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/Node.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/network/Network.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/network/Network.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/network/Node.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/network/Node.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -162,7 +160,14 @@
       <option name="project" value="LOCAL" />
       <updated>1584098700387</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Update to check that a connection exists between nodes before sending.">
+      <created>1584100861392</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1584100861392</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -176,7 +181,8 @@
     <MESSAGE value="Change nodes to be a set." />
     <MESSAGE value="Add implicit edges, thus fixing the path finding." />
     <MESSAGE value="add gitignore" />
-    <option name="LAST_COMMIT_MESSAGE" value="add gitignore" />
+    <MESSAGE value="Update to check that a connection exists between nodes before sending." />
+    <option name="LAST_COMMIT_MESSAGE" value="Update to check that a connection exists between nodes before sending." />
   </component>
   <component name="WindowStateProjectService">
     <state x="240" y="77" key="#Project_Structure" timestamp="1582370917892">
@@ -191,33 +197,33 @@
       <screen x="0" y="0" width="1280" height="800" />
     </state>
     <state x="388" y="167" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1280.800@0.0.1280.800" timestamp="1582387078009" />
-    <state x="273" y="23" width="733" height="776" key="CommitChangelistDialog2" timestamp="1584098700209">
+    <state x="273" y="23" width="733" height="776" key="CommitChangelistDialog2" timestamp="1584100861217">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state x="273" y="23" width="733" height="776" key="CommitChangelistDialog2/0.0.1280.800@0.0.1280.800" timestamp="1584098700209" />
+    <state x="273" y="23" width="733" height="776" key="CommitChangelistDialog2/0.0.1280.800@0.0.1280.800" timestamp="1584100861217" />
     <state x="128" y="80" key="DiffContextDialog" timestamp="1584098237647">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
     <state x="128" y="80" key="DiffContextDialog/0.0.1280.800@0.0.1280.800" timestamp="1584098237647" />
-    <state width="1238" height="213" key="GridCell.Tab.0.bottom" timestamp="1584100621146">
+    <state width="1238" height="48" key="GridCell.Tab.0.bottom" timestamp="1584101254411">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1238" height="213" key="GridCell.Tab.0.bottom/0.0.1280.800@0.0.1280.800" timestamp="1584100621146" />
+    <state width="1238" height="48" key="GridCell.Tab.0.bottom/0.0.1280.800@0.0.1280.800" timestamp="1584101254411" />
     <state width="1238" height="143" key="GridCell.Tab.0.bottom/0.23.1280.777@0.23.1280.777" timestamp="1583857552580" />
-    <state width="1238" height="213" key="GridCell.Tab.0.center" timestamp="1584100621144">
+    <state width="1238" height="48" key="GridCell.Tab.0.center" timestamp="1584101254409">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1238" height="213" key="GridCell.Tab.0.center/0.0.1280.800@0.0.1280.800" timestamp="1584100621144" />
+    <state width="1238" height="48" key="GridCell.Tab.0.center/0.0.1280.800@0.0.1280.800" timestamp="1584101254409" />
     <state width="1238" height="143" key="GridCell.Tab.0.center/0.23.1280.777@0.23.1280.777" timestamp="1583857552577" />
-    <state width="1238" height="213" key="GridCell.Tab.0.left" timestamp="1584100621143">
+    <state width="1238" height="48" key="GridCell.Tab.0.left" timestamp="1584101254409">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1238" height="213" key="GridCell.Tab.0.left/0.0.1280.800@0.0.1280.800" timestamp="1584100621143" />
+    <state width="1238" height="48" key="GridCell.Tab.0.left/0.0.1280.800@0.0.1280.800" timestamp="1584101254409" />
     <state width="1238" height="143" key="GridCell.Tab.0.left/0.23.1280.777@0.23.1280.777" timestamp="1583857552576" />
-    <state width="1238" height="213" key="GridCell.Tab.0.right" timestamp="1584100621145">
+    <state width="1238" height="48" key="GridCell.Tab.0.right" timestamp="1584101254410">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1238" height="213" key="GridCell.Tab.0.right/0.0.1280.800@0.0.1280.800" timestamp="1584100621145" />
+    <state width="1238" height="48" key="GridCell.Tab.0.right/0.0.1280.800@0.0.1280.800" timestamp="1584101254410" />
     <state width="1238" height="143" key="GridCell.Tab.0.right/0.23.1280.777@0.23.1280.777" timestamp="1583857552578" />
     <state x="128" y="23" key="SettingsEditor" timestamp="1582371349929">
       <screen x="0" y="23" width="1280" height="777" />
