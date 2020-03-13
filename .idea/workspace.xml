@@ -2,15 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="60d5b923-ea9b-447a-b962-2579f3f15fe9" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Network.java" beforeDir="false" afterPath="$PROJECT_DIR$/Network.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/Node.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/network/Action.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/network/Action.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/network/Network.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/network/Network.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/network/Node.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/network/Node.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/network/text/ds_graph.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/network/text/ds_graph.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/text/ds_graph.txt" beforeDir="false" afterPath="$PROJECT_DIR$/text/ds_graph.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/text/failure-notes.txt" beforeDir="false" afterPath="$PROJECT_DIR$/text/failure-notes.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -137,7 +130,14 @@
       <option name="project" value="LOCAL" />
       <updated>1583857687514</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Detect when a node has failed. Try and make the path between them.">
+      <created>1584098257218</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1584098257218</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -147,7 +147,8 @@
     <MESSAGE value="Some small refactoring" />
     <MESSAGE value="add leader elected messages" />
     <MESSAGE value="Add file writing." />
-    <option name="LAST_COMMIT_MESSAGE" value="Add file writing." />
+    <MESSAGE value="Detect when a node has failed. Try and make the path between them." />
+    <option name="LAST_COMMIT_MESSAGE" value="Detect when a node has failed. Try and make the path between them." />
   </component>
   <component name="WindowStateProjectService">
     <state x="240" y="77" key="#Project_Structure" timestamp="1582370917892">
@@ -162,14 +163,14 @@
       <screen x="0" y="0" width="1280" height="800" />
     </state>
     <state x="388" y="167" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1280.800@0.0.1280.800" timestamp="1582387078009" />
-    <state x="273" y="23" width="733" height="777" key="CommitChangelistDialog2" timestamp="1583857687193">
+    <state x="273" y="23" width="733" height="776" key="CommitChangelistDialog2" timestamp="1584098256788">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state x="273" y="23" width="733" height="777" key="CommitChangelistDialog2/0.0.1280.800@0.0.1280.800" timestamp="1583857687193" />
-    <state x="128" y="80" key="DiffContextDialog" timestamp="1583856522354">
+    <state x="273" y="23" width="733" height="776" key="CommitChangelistDialog2/0.0.1280.800@0.0.1280.800" timestamp="1584098256788" />
+    <state x="128" y="80" key="DiffContextDialog" timestamp="1584098237647">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state x="128" y="80" key="DiffContextDialog/0.0.1280.800@0.0.1280.800" timestamp="1583856522354" />
+    <state x="128" y="80" key="DiffContextDialog/0.0.1280.800@0.0.1280.800" timestamp="1584098237647" />
     <state width="1238" height="177" key="GridCell.Tab.0.bottom" timestamp="1583922944496">
       <screen x="0" y="0" width="1280" height="800" />
     </state>

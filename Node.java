@@ -22,9 +22,8 @@ public class Node extends Thread {
 	private FCState fcState = FCState.Successful;
 	
 	// Neighbouring nodes
-	// TODO Change to Set
 	// TODO Also make sure to add the "implicit" edges
-	public List<Node> myNeighbours;
+	public Set<Node> myNeighbours;
 
 	// Nodes that this node knows have failed.
 	private Set<Node> failedNodes;
@@ -47,7 +46,7 @@ public class Node extends Thread {
 		this.id = id;
 		this.network = network;
 		
-		myNeighbours = new ArrayList<>();
+		myNeighbours = new HashSet<>();
 		incomingMsgs = new LinkedList<>();
 		outgoingMsgs = new LinkedList<>();
 
@@ -74,7 +73,7 @@ public class Node extends Thread {
 		return false;
 		}
 		
-	public List<Node> getNeighbors() {
+	public Set<Node> getNeighbors() {
 		/*
 		Method to get the neighbours of the node
 		*/

@@ -50,8 +50,6 @@ public class Network {
 		}
 
 
-
-
 		parseGraph(fileName);
 		parseElection("text/ds_elect.txt");
 		parseFailures("text/ds_fail.txt");
@@ -203,7 +201,7 @@ public class Network {
 				return Optional.of(path);
 			}
 
-			List<Node> neighbours = end.myNeighbours;
+			Set<Node> neighbours = end.myNeighbours;
 			for (Node neighbour : neighbours) {
 				// if this neighbour has not failed
 				if (!failedNodes.contains(neighbour)) {
