@@ -45,4 +45,7 @@ So we have a 'recover' function which takes a node that is known to fail.
 Each node has a map from Int to Int that says if they receive a message with a certain destination, where it should be sent to.
 They lookup the position in the map and send the message there.
 
+However, in most cases, we just leave as is. We only redirect in two cases;
+- We receive a message that is for a different node
+- The node we want to send to has failed.
 

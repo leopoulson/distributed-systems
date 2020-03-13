@@ -170,16 +170,32 @@ public class Network {
 				// If it is just of length 2, we don't have to reroute anything.
 				// If it is not, this is harder.
 				if (recoverPath.isPresent()) {
+					List<Node> path = recoverPath.get();
 					System.out.println("New path from " + node.getNodeId() + " to " + newNext.getNodeId() + " via ");
-					for (Node np : recoverPath.get()) {
+					for (Node np : path) {
 						System.out.println(np.getNodeId());
 					}
+
+					// Perform failure recovery. Put the new rerouting path in place, and update next.
 					node.next = newNext;
+					applyPath(path, node.next);
+					// We now need to apply the path again, but backwards.
+					Collections.reverse(path);
+					applyPath(path, node);
 				}
 				else {
 					System.out.println("Graph is incomplete!");
 				}
 			}
+		}
+	}
+
+	private void applyPath(List<Node> rerouting, Node destination) {
+		for (int i = 0; i <= (rerouting.size() - 2); i++) {
+			Node here = rerouting.get(i);
+			Node there = rerouting.get(i + 1);
+
+			here.changeDirection(destination.getNodeId(), there.getNodeId());
 		}
 	}
 

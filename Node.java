@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 /* Class to represent a node. Each node must run on its own thread.*/
@@ -27,6 +28,7 @@ public class Node extends Thread {
 
 	// Nodes that this node knows have failed.
 	private Set<Node> failedNodes;
+	private Set<Integer> failedIds;
 
 	// Next and previous nodes
 	public Node next;
@@ -44,7 +46,7 @@ public class Node extends Thread {
 
 	// This map tells us where to send a message.
 	// Pre-failure, it is just the place. But after failure, it could be elsewhere.
-	private Map<Integer, Integer> direction;
+	private Map<Integer, Integer> redirection;
 
 	// FCState embodies the state of failure check for the next node.
 	enum FCState { Sent, Waiting, Successful, Failed }
@@ -59,9 +61,10 @@ public class Node extends Thread {
 		outgoingMsgs = new LinkedList<>();
 
 		failedNodes = new HashSet<>();
+		failedIds = new HashSet<>();
 
-		direction = new HashMap<>();
-		direction.put(network.networkId, network.networkId);
+		redirection = new LinkedHashMap<>();
+//		direction.put(network.networkId, network.networkId);
 
 	}
 	
@@ -98,7 +101,7 @@ public class Node extends Thread {
 
 
 		myNeighbours.add(n);
-		direction.put(n.getNodeId(), n.getNodeId());
+//		direction.put(n.getNodeId(), n.getNodeId());
 //		System.out.println("Added neighbour " + n.getNodeId() + " to node " + this.id + ".");
 		}
 
@@ -161,11 +164,12 @@ public class Node extends Thread {
 
 		List<String> messageTokens = Arrays.asList(m.split(" "));
 
+		String message = messageTokens.get(0);
 		Integer parameter = Integer.parseInt(messageTokens.get(1));
 		Integer destination = Integer.parseInt(messageTokens.get(2));
 
 		if (destination == this.getNodeId()) {
-			switch (messageTokens.get(0)) {
+			switch (message) {
 				case "elect":
 					handleElection(parameter);
 					break;
@@ -185,6 +189,8 @@ public class Node extends Thread {
 		}
 		else {
 			// In here, we want to redirect the message to the desination.
+			Integer redestination = redirection.get(destination);
+			sendMsg(message + " " + parameter, redestination);
 		}
 	}
 
@@ -201,11 +207,17 @@ public class Node extends Thread {
 			return;
 		}
 
-
 		m = m + " " + destination;
+
+//		Set<Integer> failedIds = failedNodes.stream().map(n -> n.getNodeId()).collect(Collectors.toSet());
+		if (redirection.containsKey(destination)) {
+//			System.out.println(this.getNodeId() + " Destination failed " + destination);
+			destination = redirection.get(destination);
+		}
+
 		System.out.println("Node " + getNodeId() + " sends message `" + m + "` to " + destination + ".");
-		Integer redirectedDest = direction.get(destination);
-		outgoingMsgs.add(new Pair(redirectedDest, m));
+//		Integer redirectedDest = redirection.get(destination);
+		outgoingMsgs.add(new Pair(destination, m));
 	}
 
 	private void startElection() {
@@ -260,6 +272,8 @@ public class Node extends Thread {
 		if (!failedNodes.contains(next))  {
 			System.out.println("Node " + id + " detects that node " + next.getNodeId() + " has failed.");
 			failedNodes.add(next);
+			failedIds.add(next.getNodeId());
+			System.out.println(failedIds.toString());
 			sendMsg("failed_node " + next.getNodeId(), network.networkId);
 
 			// TODO: See if we need to re-elect a leader.
@@ -321,5 +335,21 @@ public class Node extends Thread {
 			System.out.println("Node " + getNodeId() + " acknowledges that node " + responderId + " is active.");
 			resetFailureCheck();
 		}
+	}
+
+	public void changeDirection(Integer finalDest, Integer stopOff) {
+		System.out.println(redirection.toString());
+		System.out.println("Updating " + this.getNodeId() + " redirection to " + finalDest + " via " + stopOff);
+
+		if (redirection.containsKey(finalDest)) {
+			redirection.remove(finalDest);
+			redirection.put(finalDest, stopOff);
+		}
+		else{
+			redirection.put(finalDest, stopOff);
+		}
+
+
+		System.out.println(redirection.toString());
 	}
 }
