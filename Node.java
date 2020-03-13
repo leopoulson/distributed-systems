@@ -16,7 +16,7 @@ public class Node extends Thread {
 	// D is the time to wait for a response.
 	// sinceT is the time elapsed since the last failure check
 	private int T = 10;
-	private int D = 3;
+	private int D = 5;
 	private int sinceT = 0;
 	private int sinceD = 0;
 	private FCState fcState = FCState.Successful;
@@ -120,6 +120,7 @@ public class Node extends Thread {
 			startElection();
 		}
 		else if (action == Action.Fail) {
+			// We don't do anything else.
 			System.out.println("Node " + getNodeId() + " has failed.");
 			hasFailed = true;
 		}
@@ -199,7 +200,7 @@ public class Node extends Thread {
 		}
 
 		// If twice the estimated time to reach a node has passed, we say that the node has failed.
-		if (sinceD > 2 * D) {
+		if (sinceD > 2 * D && fcState.equals(FCState.Waiting)) {
 			failFailureCheck();
 		}
 
@@ -226,14 +227,25 @@ public class Node extends Thread {
 		sinceD = 0;
 	}
 
+	// Call this to reset the failure checker to the idle state.
+	private void resetFailureCheck() {
+		fcState = FCState.Successful;
+		sinceT = 0;
+		sinceD = 0;
+	}
+
 	private void failFailureCheck() {
 		if (!failedNodes.contains(next))  {
 			System.out.println("Node " + id + " detects that node " + next.getNodeId() + " has failed.");
 			failedNodes.add(next);
 			sendMsg("failed_node " + next.getNodeId(), network.networkId);
 
-			// See if we need to re-elect a leader.
+			// TODO: See if we need to re-elect a leader.
 
+			// Finally reset the failure checker.
+			// This is because we could be assigned a new node,
+			// and now need to check the failure status of this node.
+			resetFailureCheck();
 		}
 	}
 
@@ -281,8 +293,7 @@ public class Node extends Thread {
 	private void handleFailureResponse(Integer responderId) {
 		if (responderId.equals(next.getNodeId())) {
 			System.out.println("Node " + getNodeId() + " acknowledges that node " + responderId + " is active.");
-			fcState = FCState.Successful;
-			sinceT = 0;
+			resetFailureCheck();
 		}
 	}
 }

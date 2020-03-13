@@ -20,7 +20,7 @@ public class Network {
 
 	private LinkedHashMap<Integer, Node> nodes;
 	private int period = 20;
-	private Map<Integer, List<String>> msgsToDeliver; //Integer for the id of the sender and String for the message
+	private Map<Integer, Map<Integer, List<String>>> msgsToDeliver; //Integer for the id of the sender and String for the message
 	private Set<Node> failedNodes;
 
 	private List<List<Integer>> nodeInfos;
@@ -60,12 +60,16 @@ public class Network {
 
 		// Initialising message maps.
 		msgsToDeliver = new HashMap<>();
-		for (Integer i : nodes.keySet()) {
-			msgsToDeliver.put(i, new LinkedList<>());
+		for (Node node : nodes.values()) {
+			msgsToDeliver.put(node.getNodeId(), new HashMap<>());
+			// For every neighbour, put a list of msgs there.
+			for (Node neighbour : node.myNeighbours) {
+				msgsToDeliver.get(node.getNodeId()).put(neighbour.getNodeId(), new LinkedList<>());
+			}
 		}
 
 
-		for (int round = 50; round < 250; round++) {
+		for (int round = 50; round < 300; round++) {
 			if (round == 50) {
 				try {
 					BufferedWriter bw = new BufferedWriter(new FileWriter(logFile, true));
@@ -116,7 +120,7 @@ public class Network {
 					processMessage(message.y);
 				}
 				else {
-					addMessage(message.x, message.y);
+					addMessage(node, nodes.get(message.x), message.y);
 				}
 			}
 		}
@@ -170,6 +174,7 @@ public class Network {
 					for (Node np : recoverPath.get()) {
 						System.out.println(np.getNodeId());
 					}
+					node.next = newNext;
 				}
 				else {
 					System.out.println("Graph is incomplete!");
@@ -181,6 +186,7 @@ public class Network {
 	// returns the path from a source node to a target node.
 	private Optional<List<Node>> findPath(Node source, Node target) {
 
+		System.out.println("Finding path from " + source.getNodeId() + " to " + target.getNodeId());
 		Map<Integer, List<Node>> paths = new LinkedHashMap<>();
 		Queue<List<Node>> queue = new LinkedList<>();
 
@@ -268,12 +274,12 @@ public class Network {
 
 
 
-	public synchronized void addMessage(int id, String m) {
+	public synchronized void addMessage(Node sender, Node destination, String m) {
 		/*
 		At each round, the network collects all the messages that the nodes want to send to their neighbours. 
 		Implement this logic here.
 		*/
-		msgsToDeliver.get(id).add(m);
+		msgsToDeliver.get(sender.getNodeId()).get(destination.getNodeId()).add(m);
 	}
 	
 	public synchronized void deliverMessages() {
@@ -283,16 +289,32 @@ public class Network {
 		The network must ensure that a node can send only to its neighbours, one message per round per neighbour.
 		*/
 		// At this point, we deliver the messages of the nodes.
-		for (Map.Entry<Integer, List<String>> entry : msgsToDeliver.entrySet()) {
-			if (entry.getValue().size() > 0) {
-				String msg = entry.getValue().get(0);
-				entry.getValue().remove(0);
+		for (Map.Entry<Integer, Map<Integer, List<String>>> msgMap : msgsToDeliver.entrySet()) {
+			Integer sender = msgMap.getKey();
+			Map<Integer, List<String>> messages = msgMap.getValue();
+			for (Map.Entry<Integer, List<String>> messageList : messages.entrySet()) {
+				if (messageList.getValue().size() > 0) {
+					Integer destination = messageList.getKey();
+					String msg = messageList.getValue().get(0);
+					messageList.getValue().remove(0);
 
-				nodes.get(entry.getKey()).incomingMsgs.add(msg);
-
-				// TODO: I'm not sure if this is "synchronous" enough.
-				// nodes.get(entry.getKey()).receiveMsg(msg);
+					if (nodes.get(sender).myNeighbours.contains(nodes.get(destination))) {
+						nodes.get(destination).incomingMsgs.add(msg);
+					}
+				}
 			}
+
+//			if (entry.getValue().size() > 0) {
+//				Integer
+//				String msg = entry.getValue().get(0);
+//				entry.getValue().remove(0);
+//
+//				// We should first check that the node is allowed to send this message.
+//				nodes.get(entry.getKey()).incomingMsgs.add(msg);
+//
+//				// TODO: I'm not sure if this is "synchronous" enough.
+//				// nodes.get(entry.getKey()).receiveMsg(msg);
+//			}
 		}
 	}
 		
