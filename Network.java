@@ -254,8 +254,15 @@ public class Network {
 		// TODO: Rewrite this
 		List<Node> nodes = new ArrayList<>(this.nodes.values());
 		for (int i = 0; i < nodes.size(); i++) {
-			nodes.get(i).setPrevious(nodes.get((i - 1 + nodes.size()) % nodes.size()));
-			nodes.get(i).setNext(nodes.get((i + 1) % nodes.size()));
+			Node prev = nodes.get((i - 1 + nodes.size()) % nodes.size());
+			Node next = nodes.get((i + 1) % nodes.size());
+			Node here = nodes.get(i);
+
+			here.addNeighbour(prev);
+			here.addNeighbour(next);
+			here.setPrevious(prev);
+			here.setNext(next);
+
 		}
 	}
 
