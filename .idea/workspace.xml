@@ -3,11 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="60d5b923-ea9b-447a-b962-2579f3f15fe9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Network.java" beforeDir="false" afterPath="$PROJECT_DIR$/Network.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/Node.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/network/Network.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/network/Network.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/network/Node.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/network/Node.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/text/failure-notes.txt" beforeDir="false" afterPath="$PROJECT_DIR$/text/failure-notes.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,7 +33,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="configurable.group.editor" />
@@ -184,7 +180,14 @@
       <option name="project" value="LOCAL" />
       <updated>1584102256608</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Implement message redirection for failed nodes.">
+      <created>1584104300739</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1584104300739</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -201,12 +204,14 @@
     <MESSAGE value="Update to check that a connection exists between nodes before sending." />
     <MESSAGE value="If the leader fails, start an election next round." />
     <MESSAGE value="Update nodes to use redirect map for directions." />
-    <option name="LAST_COMMIT_MESSAGE" value="Update nodes to use redirect map for directions." />
+    <MESSAGE value="Implement message redirection for failed nodes." />
+    <option name="LAST_COMMIT_MESSAGE" value="Implement message redirection for failed nodes." />
   </component>
   <component name="WindowStateProjectService">
-    <state x="240" y="77" key="#Project_Structure" timestamp="1582370917892">
-      <screen x="0" y="23" width="1280" height="777" />
+    <state x="240" y="56" key="#Project_Structure" timestamp="1585301274404">
+      <screen x="0" y="0" width="1280" height="800" />
     </state>
+    <state x="240" y="56" key="#Project_Structure/0.0.1280.800@0.0.1280.800" timestamp="1585301274404" />
     <state x="240" y="77" key="#Project_Structure/0.23.1280.777@0.23.1280.777" timestamp="1582370917892" />
     <state x="115" y="38" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1582387082412">
       <screen x="0" y="0" width="1280" height="800" />
@@ -216,33 +221,33 @@
       <screen x="0" y="0" width="1280" height="800" />
     </state>
     <state x="388" y="167" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1280.800@0.0.1280.800" timestamp="1582387078009" />
-    <state x="273" y="23" width="733" height="776" key="CommitChangelistDialog2" timestamp="1584102256446">
+    <state x="273" y="23" width="733" height="776" key="CommitChangelistDialog2" timestamp="1584104300567">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state x="273" y="23" width="733" height="776" key="CommitChangelistDialog2/0.0.1280.800@0.0.1280.800" timestamp="1584102256446" />
+    <state x="273" y="23" width="733" height="776" key="CommitChangelistDialog2/0.0.1280.800@0.0.1280.800" timestamp="1584104300567" />
     <state x="128" y="80" key="DiffContextDialog" timestamp="1584098237647">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
     <state x="128" y="80" key="DiffContextDialog/0.0.1280.800@0.0.1280.800" timestamp="1584098237647" />
-    <state width="1238" height="154" key="GridCell.Tab.0.bottom" timestamp="1584104194255">
+    <state width="1238" height="167" key="GridCell.Tab.0.bottom" timestamp="1584108977239">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1238" height="154" key="GridCell.Tab.0.bottom/0.0.1280.800@0.0.1280.800" timestamp="1584104194255" />
+    <state width="1238" height="167" key="GridCell.Tab.0.bottom/0.0.1280.800@0.0.1280.800" timestamp="1584108977239" />
     <state width="1238" height="143" key="GridCell.Tab.0.bottom/0.23.1280.777@0.23.1280.777" timestamp="1583857552580" />
-    <state width="1238" height="154" key="GridCell.Tab.0.center" timestamp="1584104194254">
+    <state width="1238" height="167" key="GridCell.Tab.0.center" timestamp="1584108977237">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1238" height="154" key="GridCell.Tab.0.center/0.0.1280.800@0.0.1280.800" timestamp="1584104194254" />
+    <state width="1238" height="167" key="GridCell.Tab.0.center/0.0.1280.800@0.0.1280.800" timestamp="1584108977237" />
     <state width="1238" height="143" key="GridCell.Tab.0.center/0.23.1280.777@0.23.1280.777" timestamp="1583857552577" />
-    <state width="1238" height="154" key="GridCell.Tab.0.left" timestamp="1584104194253">
+    <state width="1238" height="167" key="GridCell.Tab.0.left" timestamp="1584108977236">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1238" height="154" key="GridCell.Tab.0.left/0.0.1280.800@0.0.1280.800" timestamp="1584104194253" />
+    <state width="1238" height="167" key="GridCell.Tab.0.left/0.0.1280.800@0.0.1280.800" timestamp="1584108977236" />
     <state width="1238" height="143" key="GridCell.Tab.0.left/0.23.1280.777@0.23.1280.777" timestamp="1583857552576" />
-    <state width="1238" height="154" key="GridCell.Tab.0.right" timestamp="1584104194254">
+    <state width="1238" height="167" key="GridCell.Tab.0.right" timestamp="1584108977238">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1238" height="154" key="GridCell.Tab.0.right/0.0.1280.800@0.0.1280.800" timestamp="1584104194254" />
+    <state width="1238" height="167" key="GridCell.Tab.0.right/0.0.1280.800@0.0.1280.800" timestamp="1584108977238" />
     <state width="1238" height="143" key="GridCell.Tab.0.right/0.23.1280.777@0.23.1280.777" timestamp="1583857552578" />
     <state x="128" y="23" key="SettingsEditor" timestamp="1582371349929">
       <screen x="0" y="23" width="1280" height="777" />
