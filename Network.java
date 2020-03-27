@@ -83,7 +83,10 @@ public class Network {
 			}
 		}
 
-		for (int round = 0; round < 75; round++) {
+		// Need to find the point at which we stop the simulation.
+		int lastRound = this.lastEvent();
+
+		for (int round = 0; round <= lastRound; round++) {
 
 			if (this.isDisconnected) return;
 
@@ -100,6 +103,16 @@ public class Network {
 			}
 			playRound(round);
  		}
+
+		try {
+			BufferedWriter bw = new BufferedWriter(new FileWriter(logFileName, true));
+			bw.write("Simulation completed.\n");
+			bw.close();
+		}
+		catch (IOException e) {
+			System.out.println("Couldn't write to file.");
+			e.printStackTrace();
+		}
 	}
 
 	private void playRound(int roundNumber) {
@@ -357,6 +370,22 @@ public class Network {
 		/*
 		Method to inform the neighbours of a failed node about the event.
 		*/
+	}
+
+	private int lastEvent() {
+		Set<Integer> eventRounds = new HashSet<>();
+		eventRounds.addAll(electionInfos.keySet());
+		eventRounds.addAll(failureInfos.keySet());
+
+		int result;
+
+		try {
+			result = Collections.max(eventRounds);
+		} catch (NoSuchElementException e) {
+			result = 0;
+		}
+
+		return result + 50;
 	}
 
 	private void parseGraph(String graphFileName) {
