@@ -36,7 +36,7 @@ public class Network {
 	// If it is, it means we halt.
 	private boolean isDisconnected = false;
 
-	public void NetSimulator(String fileName) {
+	public void NetSimulator(String fileName, String otherFileName) {
 		/*
 		Code to call methods for parsing the input file, initiating the system and producing the log can be added here.
 		*/
@@ -53,10 +53,21 @@ public class Network {
 			e.printStackTrace();
 		}
 
+		electionInfos = new HashMap<>();
+		failureInfos = new HashMap<>();
 
 		parseGraph(fileName);
-		parseElection("text/ds_elect.txt");
-		parseFailures("text/ds_fail.txt");
+
+		try {
+			parseElection(otherFileName);
+		}
+		catch (Exception e) {
+			parseFailures(otherFileName);
+		}
+
+//		parseElection("text/ds_elect.txt");
+//		parseFailures("text/ds_fail.txt");
+
 
 		nodes = createNodes(nodeInfos);
 		failedNodes = new HashSet<>();
@@ -72,8 +83,7 @@ public class Network {
 			}
 		}
 
-
-		for (int round = 0; round < 450; round++) {
+		for (int round = 0; round < 75; round++) {
 
 			if (this.isDisconnected) return;
 
@@ -368,9 +378,9 @@ public class Network {
 		}
 	}
 
-	private void parseElection(String electionFileName)  {
+	private void parseElection(String electionFileName) throws Exception {
 		Scanner sc = null;
-		electionInfos = new HashMap<>();
+
 
 		try {
 			sc = new Scanner(new File(electionFileName));
@@ -382,6 +392,11 @@ public class Network {
 			String line = sc.nextLine();
 
 			List<String> args = List.of(line.split(" "));
+
+			if (args.get(0).equals("FAIL")) {
+				throw new Exception("FAILs found in election file.");
+			}
+
 			Integer key = Integer.parseInt((args.get(1)));
 			List<Integer> electors = new LinkedList<>();
 
@@ -395,7 +410,7 @@ public class Network {
 
 	private void parseFailures(String failuresFilename) {
 		Scanner sc = null;
-		failureInfos = new HashMap<>();
+
 
 		try {
 			sc = new Scanner(new File(failuresFilename));
@@ -433,9 +448,12 @@ public class Network {
 		Your main must get the input file as input.
 		*/
 //		List<List<Integer>> nodeArgsList = parseFile("text/ds_graph.txt");
-		String filename = "text/ds_graph.txt";
+//		String filename = "text/ds_graph.txt";
+//		Network network = new Network();
+//		network.NetSimulator(filename, "text/ds_fail.txt");
+
 		Network network = new Network();
-		network.NetSimulator(filename);
+		network.NetSimulator(args[0], args[1]);
 
 //		NetSimulator("text/ds_graph.txt");
 		}

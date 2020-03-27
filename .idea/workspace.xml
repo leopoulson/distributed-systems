@@ -3,8 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="60d5b923-ea9b-447a-b962-2579f3f15fe9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Network.java" beforeDir="false" afterPath="$PROJECT_DIR$/Network.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/Node.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/network/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/network/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/network/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/network/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/network/Network.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/network/Network.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/network/Node.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/network/Node.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/network/text/ds_fail.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/network/text/ds_fail.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/text/ds_fail.txt" beforeDir="false" afterPath="$PROJECT_DIR$/text/ds_fail.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -196,7 +201,14 @@
       <option name="project" value="LOCAL" />
       <updated>1585301446837</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="fix bug where leader elections weren't starting, add just returning when graph incomplete">
+      <created>1585303732670</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1585303732670</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -215,7 +227,8 @@
     <MESSAGE value="Update nodes to use redirect map for directions." />
     <MESSAGE value="Implement message redirection for failed nodes." />
     <MESSAGE value="add run.sh script" />
-    <option name="LAST_COMMIT_MESSAGE" value="add run.sh script" />
+    <MESSAGE value="fix bug where leader elections weren't starting, add just returning when graph incomplete" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix bug where leader elections weren't starting, add just returning when graph incomplete" />
   </component>
   <component name="WindowStateProjectService">
     <state x="240" y="56" key="#Project_Structure" timestamp="1585301274404">
@@ -231,34 +244,34 @@
       <screen x="0" y="0" width="1280" height="800" />
     </state>
     <state x="388" y="167" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1280.800@0.0.1280.800" timestamp="1582387078009" />
-    <state x="273" y="23" width="733" height="776" key="CommitChangelistDialog2" timestamp="1585301446400">
+    <state x="273" y="23" width="733" height="776" key="CommitChangelistDialog2" timestamp="1585303732473">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state x="273" y="23" width="733" height="776" key="CommitChangelistDialog2/0.0.1280.800@0.0.1280.800" timestamp="1585301446400" />
+    <state x="273" y="23" width="733" height="776" key="CommitChangelistDialog2/0.0.1280.800@0.0.1280.800" timestamp="1585303732473" />
     <state x="128" y="80" key="DiffContextDialog" timestamp="1584098237647">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
     <state x="128" y="80" key="DiffContextDialog/0.0.1280.800@0.0.1280.800" timestamp="1584098237647" />
-    <state width="1238" height="49" key="GridCell.Tab.0.bottom" timestamp="1585303688485">
-      <screen x="0" y="0" width="1280" height="800" />
+    <state width="1238" height="90" key="GridCell.Tab.0.bottom" timestamp="1585304761378">
+      <screen x="0" y="23" width="1280" height="777" />
     </state>
-    <state width="1238" height="49" key="GridCell.Tab.0.bottom/0.0.1280.800@0.0.1280.800" timestamp="1585303688485" />
-    <state width="1238" height="406" key="GridCell.Tab.0.bottom/0.23.1280.777@0.23.1280.777" timestamp="1585303237844" />
-    <state width="1238" height="49" key="GridCell.Tab.0.center" timestamp="1585303688482">
-      <screen x="0" y="0" width="1280" height="800" />
+    <state width="1238" height="50" key="GridCell.Tab.0.bottom/0.0.1280.800@0.0.1280.800" timestamp="1585304666671" />
+    <state width="1238" height="90" key="GridCell.Tab.0.bottom/0.23.1280.777@0.23.1280.777" timestamp="1585304761378" />
+    <state width="1238" height="90" key="GridCell.Tab.0.center" timestamp="1585304761371">
+      <screen x="0" y="23" width="1280" height="777" />
     </state>
-    <state width="1238" height="49" key="GridCell.Tab.0.center/0.0.1280.800@0.0.1280.800" timestamp="1585303688482" />
-    <state width="1238" height="406" key="GridCell.Tab.0.center/0.23.1280.777@0.23.1280.777" timestamp="1585303237809" />
-    <state width="1238" height="49" key="GridCell.Tab.0.left" timestamp="1585303688481">
-      <screen x="0" y="0" width="1280" height="800" />
+    <state width="1238" height="50" key="GridCell.Tab.0.center/0.0.1280.800@0.0.1280.800" timestamp="1585304666669" />
+    <state width="1238" height="90" key="GridCell.Tab.0.center/0.23.1280.777@0.23.1280.777" timestamp="1585304761371" />
+    <state width="1238" height="90" key="GridCell.Tab.0.left" timestamp="1585304761370">
+      <screen x="0" y="23" width="1280" height="777" />
     </state>
-    <state width="1238" height="49" key="GridCell.Tab.0.left/0.0.1280.800@0.0.1280.800" timestamp="1585303688481" />
-    <state width="1238" height="406" key="GridCell.Tab.0.left/0.23.1280.777@0.23.1280.777" timestamp="1585303237805" />
-    <state width="1238" height="49" key="GridCell.Tab.0.right" timestamp="1585303688483">
-      <screen x="0" y="0" width="1280" height="800" />
+    <state width="1238" height="50" key="GridCell.Tab.0.left/0.0.1280.800@0.0.1280.800" timestamp="1585304666668" />
+    <state width="1238" height="90" key="GridCell.Tab.0.left/0.23.1280.777@0.23.1280.777" timestamp="1585304761370" />
+    <state width="1238" height="90" key="GridCell.Tab.0.right" timestamp="1585304761372">
+      <screen x="0" y="23" width="1280" height="777" />
     </state>
-    <state width="1238" height="49" key="GridCell.Tab.0.right/0.0.1280.800@0.0.1280.800" timestamp="1585303688483" />
-    <state width="1238" height="406" key="GridCell.Tab.0.right/0.23.1280.777@0.23.1280.777" timestamp="1585303237812" />
+    <state width="1238" height="50" key="GridCell.Tab.0.right/0.0.1280.800@0.0.1280.800" timestamp="1585304666670" />
+    <state width="1238" height="90" key="GridCell.Tab.0.right/0.23.1280.777@0.23.1280.777" timestamp="1585304761372" />
     <state x="128" y="23" key="SettingsEditor" timestamp="1582371349929">
       <screen x="0" y="23" width="1280" height="777" />
     </state>
