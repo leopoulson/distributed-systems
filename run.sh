@@ -1,4 +1,4 @@
 #!/bin/bash
 
 javac *.java
-java Main.java $1 $2
+java Main $1 $2

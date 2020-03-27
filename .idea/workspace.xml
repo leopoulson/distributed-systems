@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="60d5b923-ea9b-447a-b962-2579f3f15fe9" name="Default Changelist" comment="tidy up print statements.">
+    <list default="true" id="60d5b923-ea9b-447a-b962-2579f3f15fe9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Network.java" beforeDir="false" afterPath="$PROJECT_DIR$/Network.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/Node.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -209,7 +208,14 @@
       <option name="project" value="LOCAL" />
       <updated>1585306600125</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="tidy up print statements.">
+      <created>1585307160034</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1585307160034</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -248,10 +254,10 @@
       <screen x="0" y="0" width="1280" height="800" />
     </state>
     <state x="388" y="167" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1280.800@0.0.1280.800" timestamp="1582387078009" />
-    <state x="273" y="23" width="733" height="776" key="CommitChangelistDialog2" timestamp="1585307132345">
+    <state x="273" y="23" width="733" height="776" key="CommitChangelistDialog2" timestamp="1585307159660">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state x="273" y="23" width="733" height="776" key="CommitChangelistDialog2/0.0.1280.800@0.0.1280.800" timestamp="1585307132345" />
+    <state x="273" y="23" width="733" height="776" key="CommitChangelistDialog2/0.0.1280.800@0.0.1280.800" timestamp="1585307159660" />
     <state x="273" y="23" key="CommitChangelistDialog2/0.23.1280.777@0.23.1280.777" timestamp="1585306599903" />
     <state x="128" y="80" key="DiffContextDialog" timestamp="1584098237647">
       <screen x="0" y="0" width="1280" height="800" />
