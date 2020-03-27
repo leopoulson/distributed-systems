@@ -3,14 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="60d5b923-ea9b-447a-b962-2579f3f15fe9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Network.java" beforeDir="false" afterPath="$PROJECT_DIR$/Network.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/network/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/network/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/network/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/network/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/network/Network.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/network/Network.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/network/Node.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/network/Node.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/network/text/ds_fail.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/network/text/ds_fail.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/text/ds_fail.txt" beforeDir="false" afterPath="$PROJECT_DIR$/text/ds_fail.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -228,7 +221,8 @@
     <MESSAGE value="Implement message redirection for failed nodes." />
     <MESSAGE value="add run.sh script" />
     <MESSAGE value="fix bug where leader elections weren't starting, add just returning when graph incomplete" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix bug where leader elections weren't starting, add just returning when graph incomplete" />
+    <MESSAGE value="extend the shell script so that we can pass args." />
+    <option name="LAST_COMMIT_MESSAGE" value="extend the shell script so that we can pass args." />
   </component>
   <component name="WindowStateProjectService">
     <state x="240" y="56" key="#Project_Structure" timestamp="1585301274404">
@@ -244,10 +238,10 @@
       <screen x="0" y="0" width="1280" height="800" />
     </state>
     <state x="388" y="167" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1280.800@0.0.1280.800" timestamp="1582387078009" />
-    <state x="273" y="23" width="733" height="776" key="CommitChangelistDialog2" timestamp="1585303732473">
+    <state x="273" y="23" width="733" height="776" key="CommitChangelistDialog2" timestamp="1585305605633">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state x="273" y="23" width="733" height="776" key="CommitChangelistDialog2/0.0.1280.800@0.0.1280.800" timestamp="1585303732473" />
+    <state x="273" y="23" width="733" height="776" key="CommitChangelistDialog2/0.0.1280.800@0.0.1280.800" timestamp="1585305605633" />
     <state x="128" y="80" key="DiffContextDialog" timestamp="1584098237647">
       <screen x="0" y="0" width="1280" height="800" />
     </state>

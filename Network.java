@@ -391,7 +391,7 @@ public class Network {
 		while (sc.hasNextLine()) {
 			String line = sc.nextLine();
 
-			List<String> args = List.of(line.split(" "));
+			List<String> args = Arrays.asList(line.split(" "));
 
 			if (args.get(0).equals("FAIL")) {
 				throw new Exception("FAILs found in election file.");
@@ -421,7 +421,7 @@ public class Network {
 		while (sc.hasNextLine()) {
 			String line = sc.nextLine();
 
-			List<String> args = List.of(line.split(" "));
+			List<String> args = Arrays.asList(line.split(" "));
 			String type = args.get(0);
 			Integer round = Integer.parseInt(args.get(1));
 			Integer node = Integer.parseInt(args.get(2));
