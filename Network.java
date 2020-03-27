@@ -32,6 +32,10 @@ public class Network {
 	private File logFile;
 	private String logFileName = "log.txt";
 
+	// Flag that expresses whether the graph is disconnected.
+	// If it is, it means we halt.
+	private boolean isDisconnected = false;
+
 	public void NetSimulator(String fileName) {
 		/*
 		Code to call methods for parsing the input file, initiating the system and producing the log can be added here.
@@ -69,7 +73,11 @@ public class Network {
 		}
 
 
-		for (int round = 50; round < 300; round++) {
+		for (int round = 0; round < 450; round++) {
+
+			if (this.isDisconnected) return;
+
+			// this makes us start part B
 			if (round == 50) {
 				try {
 					BufferedWriter bw = new BufferedWriter(new FileWriter(logFile, true));
@@ -185,6 +193,7 @@ public class Network {
 				}
 				else {
 					System.out.println("Graph is incomplete!");
+					this.isDisconnected = true;
 				}
 			}
 		}

@@ -16,7 +16,7 @@ public class Node extends Thread {
 	// T is the time interval to perform a failure check
 	// D is the time to wait for a response.
 	// sinceT is the time elapsed since the last failure check
-	private int T = 10;
+	private int T = 8;
 	private int D = 5;
 	private int sinceT = 0;
 	private int sinceD = 0;
@@ -130,7 +130,11 @@ public class Node extends Thread {
 		//outgoingMsgs = Optional.empty();
 
 		// if told to start an election, start it!
-		if (action == Action.StartElection || this.internalAction == Action.StartElection) {
+		// it can also occur that the node has to start an election next turn because the next node, the leader, failed.
+		// in this case the next node will have indeed failed, and if we try and send a message there it will get lost,
+		// so we have to wait one turn for the network to re-route the node.
+		if ((action == Action.StartElection || this.internalAction == Action.StartElection)
+			&& !(failedNodes.contains(this.next))) {
 			startElection();
 			this.internalAction = Action.None;
 		}
