@@ -128,7 +128,6 @@ public class Network {
 				action = Action.Fail;
 			}
 
-
 			// Now we run the action for the period of time.
 			// If it takes longer than 20 milliseconds it gets cancelled.
 			node.run(action);
@@ -166,7 +165,7 @@ public class Network {
 		switch(messageTokens.get(0)) {
 			case "leader_elected":
 				// write to file
-				System.out.println("========== Leader elected received==========");
+				System.out.println("Network is informed that a leader has been elected. ");
 				try {
 					BufferedWriter bw = new BufferedWriter(new FileWriter(logFileName, true));
 					bw.write("Leader Node " + messageTokens.get(1) + "\n");
@@ -179,7 +178,7 @@ public class Network {
 
 				break;
 			case "failed_node":
-				System.out.println("===== Network finds out that node " + messageTokens.get(1) + " has failed. =====");
+				System.out.println("Network finds out that node " + messageTokens.get(1) + " has failed.");
 				Node failed = nodes.get(Integer.parseInt(messageTokens.get(1)));
 				failedNodes.add(failed);
 				recoverFailure(failed);
@@ -204,8 +203,9 @@ public class Network {
 					List<Node> path = recoverPath.get();
 					System.out.println("New path from " + node.getNodeId() + " to " + newNext.getNodeId() + " via ");
 					for (Node np : path) {
-						System.out.println(np.getNodeId());
+						System.out.print(np.getNodeId() + " ");
 					}
+					System.out.println();
 
 					// Perform failure recovery. Put the new rerouting path in place, and update next.
 					node.next = newNext;
@@ -215,7 +215,7 @@ public class Network {
 					applyPath(path, node);
 				}
 				else {
-					System.out.println("Graph is incomplete!");
+					System.out.println("Graph is incomplete! Simulation stopping.");
 					this.isDisconnected = true;
 				}
 			}
@@ -234,11 +234,9 @@ public class Network {
 	// returns the path from a source node to a target node.
 	private Optional<List<Node>> findPath(Node source, Node target) {
 
-		System.out.println("Finding path from " + source.getNodeId() + " to " + target.getNodeId());
-		Map<Integer, List<Node>> paths = new LinkedHashMap<>();
 		Queue<List<Node>> queue = new LinkedList<>();
 
-		queue.add(new LinkedList<>(Arrays.asList(source)));
+		queue.add(new LinkedList<>(Collections.singletonList(source)));
 
 		while (queue.size() > 0) {
 			// We need to make sure that this does not loop forever.
@@ -399,9 +397,8 @@ public class Network {
 
 		while (sc.hasNextLine()) {
 			String line = sc.nextLine();
-			List<Integer> args = Arrays.asList(line.split(" "))
-					.stream()
-					.map(n -> Integer.parseInt(n))
+			List<Integer> args = Arrays.stream(line.split(" "))
+					.map(Integer::parseInt)
 					.collect(Collectors.toList());
 			nodeInfos.add(args);
 		}
@@ -472,7 +469,7 @@ public class Network {
 
 
 
-	public static void main(String args[]) throws IOException, InterruptedException {
+	public static void main(String args[]) {
 		/*
 		Your main must get the input file as input.
 		*/

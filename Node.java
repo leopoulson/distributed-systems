@@ -112,8 +112,7 @@ public class Node extends Thread {
 	public void setNext(Node next) {
 
 		this.next = next;
-		if (!myNeighbours.contains(next))
-			myNeighbours.add(next);
+		myNeighbours.add(next);
 	}
 
 	public Node getPrevious() {
@@ -169,8 +168,8 @@ public class Node extends Thread {
 		List<String> messageTokens = Arrays.asList(m.split(" "));
 
 		String message = messageTokens.get(0);
-		Integer parameter = Integer.parseInt(messageTokens.get(1));
-		Integer destination = Integer.parseInt(messageTokens.get(2));
+		int parameter = Integer.parseInt(messageTokens.get(1));
+		int destination = Integer.parseInt(messageTokens.get(2));
 
 		if (destination == this.getNodeId()) {
 			switch (message) {
@@ -221,7 +220,7 @@ public class Node extends Thread {
 
 		System.out.println("Node " + getNodeId() + " sends message `" + m + "` to " + destination + ".");
 //		Integer redirectedDest = redirection.get(destination);
-		outgoingMsgs.add(new Pair(destination, m));
+		outgoingMsgs.add(new Pair<Integer, String>(destination, m));
 	}
 
 	private void startElection() {
@@ -277,7 +276,6 @@ public class Node extends Thread {
 			System.out.println("Node " + id + " detects that node " + next.getNodeId() + " has failed.");
 			failedNodes.add(next);
 			failedIds.add(next.getNodeId());
-			System.out.println(failedIds.toString());
 			sendMsg("failed_node " + next.getNodeId(), network.networkId);
 
 			// TODO: See if we need to re-elect a leader.
@@ -300,7 +298,7 @@ public class Node extends Thread {
 			// Send election message of max (m.id, p.id) to the next node
 			sendMsg("elect " + Integer.max(electorId, getNodeId()), next.getNodeId());
 		}
-		else if (isParticipant) {
+		else {
 			if (electorId > getNodeId()){
 				// send elector id to the next one.
 				sendMsg("elect " + electorId, next.getNodeId());
@@ -342,18 +340,11 @@ public class Node extends Thread {
 	}
 
 	public void changeDirection(Integer finalDest, Integer stopOff) {
-		System.out.println(redirection.toString());
-		System.out.println("Updating " + this.getNodeId() + " redirection to " + finalDest + " via " + stopOff);
-
 		if (redirection.containsKey(finalDest)) {
 			redirection.remove(finalDest);
 			redirection.put(finalDest, stopOff);
-		}
-		else{
+		} else {
 			redirection.put(finalDest, stopOff);
 		}
-
-
-		System.out.println(redirection.toString());
 	}
 }
