@@ -16,23 +16,19 @@ public class Node extends Thread {
 	// T is the time interval to perform a failure check
 	// D is the time to wait for a response.
 	// sinceT is the time elapsed since the last failure check
-	private int T = 8;
+	private int T = 12;
 	private int D = 5;
 	private int sinceT = 0;
 	private int sinceD = 0;
 	private FCState fcState = FCState.Successful;
 	
 	// Neighbouring nodes
-	// TODO Also make sure to add the "implicit" edges
 	public Set<Node> myNeighbours;
 
 	// Nodes that this node knows have failed.
 	private Set<Node> failedNodes;
-	private Set<Integer> failedIds;
 
-	// Next and previous nodes
 	public Node next;
-	private Node previous;
 
 	// Queues for the incoming messages
 	public Queue<String> incomingMsgs;
@@ -61,15 +57,11 @@ public class Node extends Thread {
 		outgoingMsgs = new LinkedList<>();
 
 		failedNodes = new HashSet<>();
-		failedIds = new HashSet<>();
 
 		redirection = new LinkedHashMap<>();
-//		direction.put(network.networkId, network.networkId);
-
 	}
 	
 	// Basic methods for the Node class
-	
 	public int getNodeId() {
 		/*
 		Method to get the Id of a node instance
@@ -77,37 +69,10 @@ public class Node extends Thread {
 
 		return id;
 		}
-			
-	public boolean isNodeLeader() {
-		/*
-		Method to return true if the node is currently a leader
-		*/
-
-		return false;
-		}
-		
-	public Set<Node> getNeighbors() {
-		/*
-		Method to get the neighbours of the node
-		*/
-
-		return myNeighbours;
-		}
 		
 	public void addNeighbour(Node n) {
-		/*
-		Method to add a neighbour to a node
-		*/
-
-
 		myNeighbours.add(n);
-//		direction.put(n.getNodeId(), n.getNodeId());
-//		System.out.println("Added neighbour " + n.getNodeId() + " to node " + this.id + ".");
 		}
-
-	public Node getNext() {
-		return next;
-	}
 
 	public void setNext(Node next) {
 
@@ -115,19 +80,7 @@ public class Node extends Thread {
 		myNeighbours.add(next);
 	}
 
-	public Node getPrevious() {
-		return previous;
-	}
-
-	public void setPrevious(Node previous) {
-		this.previous = previous;
-	}
-
 	public void run(Action action) {
-		// Reset the outgoing message.
-		// We don't do this. we just want to add
-		//outgoingMsgs = Optional.empty();
-
 		// if told to start an election, start it!
 		// it can also occur that the node has to start an election next turn because the next node, the leader, failed.
 		// in this case the next node will have indeed failed, and if we try and send a message there it will get lost,
@@ -138,30 +91,25 @@ public class Node extends Thread {
 			this.internalAction = Action.None;
 		}
 		else if (action == Action.Fail) {
-			// We don't do anything else.
 			System.out.println("Node " + getNodeId() + " has failed.");
 			hasFailed = true;
 		}
 
-
-		// Pop a message from the queue.
-		// If there is no message, then we do nothing.
-		// Also if we have failed, we cannot remove a message from the queue.
-		// TODO: Consider if it's better to handle failure in the receiveMsg function?
-		if (incomingMsgs.size() > 0 && !hasFailed) {
-			String msg = incomingMsgs.remove();
-			receiveMsg(msg);
+		// Handle all incoming messages
+		if (!hasFailed) {
+			for (String msg : incomingMsgs) {
+				receiveMsg(msg);
+			}
+			incomingMsgs.clear();
 		}
-
 
 		// Here we perform failure checking operations.
 		if (!hasFailed) {
 			updateFailures();
 		}
-
-
 	}
-				
+
+	// Here we receive a single message and choose what to do based on its contents.
 	public void receiveMsg(String m) {
 		System.out.println("Node " + getNodeId() + " receives `" + m + "`.");
 
@@ -171,6 +119,7 @@ public class Node extends Thread {
 		int parameter = Integer.parseInt(messageTokens.get(1));
 		int destination = Integer.parseInt(messageTokens.get(2));
 
+		// If the destination of the message is this node, we process it.
 		if (destination == this.getNodeId()) {
 			switch (message) {
 				case "elect":
@@ -186,10 +135,10 @@ public class Node extends Thread {
 					handleFailureResponse(parameter);
 					break;
 				default:
-					// maybe error?
 					break;
 			}
 		}
+		// If the destination of the message is not the node in question, we forward it the corresponding place.
 		else {
 			// In here, we want to redirect the message to the desination.
 			Integer redestination = redirection.get(destination);
@@ -197,38 +146,26 @@ public class Node extends Thread {
 		}
 	}
 
+	// This function "sends" a message.
 	public void sendMsg(String m, Integer destination) {
-		/*
-		Method that implements the sending of a message by a node.
-		The message must be delivered to its recepients through the network.
-		This method need only implement the logic of the network receiving an outgoing message from a node.
-		The remainder of the logic will be implemented in the network class.
-		*/
-
 		if (hasFailed) {
 			System.out.println("Node " + getNodeId() + " has failed, so cannot send message `" + m + ".");
 			return;
 		}
 
+		// Always append the destination to the message.
 		m = m + " " + destination;
 
-//		Set<Integer> failedIds = failedNodes.stream().map(n -> n.getNodeId()).collect(Collectors.toSet());
+		// If this message is going to a node that has failed, we really send it to the redirected node.
 		if (redirection.containsKey(destination)) {
-//			System.out.println(this.getNodeId() + " Destination failed " + destination);
 			destination = redirection.get(destination);
 		}
 
 		System.out.println("Node " + getNodeId() + " sends message `" + m + "` to " + destination + ".");
-//		Integer redirectedDest = redirection.get(destination);
-		outgoingMsgs.add(new Pair<Integer, String>(destination, m));
+		outgoingMsgs.add(new Pair<>(destination, m));
 	}
 
-	private void startElection() {
-		System.out.println("Node " + id + " starting election.");
-		isParticipant = true;
-		sendMsg("elect " + getNodeId(), next.getNodeId());
-	}
-
+	// This function keeps failure checking ticking over.
 	private void updateFailures() {
 
 		// First, if we are waiting for a response, increment the failure timer.
@@ -272,15 +209,15 @@ public class Node extends Thread {
 	}
 
 	private void failFailureCheck() {
+		// First we check that the next node has not already failed.
 		if (!failedNodes.contains(next))  {
 			System.out.println("Node " + id + " detects that node " + next.getNodeId() + " has failed.");
 			failedNodes.add(next);
-			failedIds.add(next.getNodeId());
 			sendMsg("failed_node " + next.getNodeId(), network.networkId);
 
-			// TODO: See if we need to re-elect a leader.
 			if (next.getNodeId() == leader) {
 				// We need to start election /next/ round.
+				// This is because the network won't yet have found the new path to the next node.
 				this.internalAction = Action.StartElection;
 			}
 
@@ -291,6 +228,14 @@ public class Node extends Thread {
 		}
 	}
 
+	// Here we start an election.
+	private void startElection() {
+		System.out.println("Node " + id + " starting election.");
+		isParticipant = true;
+		sendMsg("elect " + getNodeId(), next.getNodeId());
+	}
+
+	// This handles an election message being received.
 	private void handleElection(Integer electorId) {
 
 		if (!isParticipant) {
@@ -308,7 +253,6 @@ public class Node extends Thread {
 				leader = getNodeId();
 				sendMsg("leader " + getNodeId(), next.getNodeId());
 			}
-			// If electorId < getNodeID(), we do nothing.
 		}
 	}
 
@@ -321,17 +265,20 @@ public class Node extends Thread {
 			}
 		}
 		else {
+			// if the leader is not the current one, we set our leader to be the one from the message.
+			// we also forward the message on to the next node.
 			leader = leaderId;
 			System.out.println("Node " + getNodeId() + "'s leader becomes " + leaderId);
 			sendMsg("leader " + leaderId, next.getNodeId());
 		}
 	}
 
+	// If we receive a failure check message, we just return with a failure response message.
 	private void handleFailureCheck(Integer checkerId) {
-		//System.out.println("Node " + getNodeId() + " received failure check from " + checkerId + ".");
 		sendMsg("failure_response " + getNodeId(), checkerId);
 	}
 
+	// If we get a failure response message, we just say that we know the node is active.
 	private void handleFailureResponse(Integer responderId) {
 		if (responderId.equals(next.getNodeId())) {
 			System.out.println("Node " + getNodeId() + " acknowledges that node " + responderId + " is active.");
@@ -339,6 +286,7 @@ public class Node extends Thread {
 		}
 	}
 
+	// Update redirection map.
 	public void changeDirection(Integer finalDest, Integer stopOff) {
 		if (redirection.containsKey(finalDest)) {
 			redirection.remove(finalDest);

@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="60d5b923-ea9b-447a-b962-2579f3f15fe9" name="Default Changelist" comment="">
+    <list default="true" id="60d5b923-ea9b-447a-b962-2579f3f15fe9" name="Default Changelist" comment="Let nodes send many messages in a round, but only one per node.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Network.java" beforeDir="false" afterPath="$PROJECT_DIR$/Network.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/Node.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/network/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/network/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/network/Network.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/network/Network.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/network/Node.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/network/Node.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,7 +42,7 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="configurable.group.editor" />
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.fail main">
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="WIDTH" value="400" />
       <option name="HEIGHT" value="300" />
@@ -48,6 +52,22 @@
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="elect main" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="network" />
+      <option name="PROGRAM_PARAMETERS" value="text/ds_graph.txt text/ds_elect.txt" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="fail main" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="network" />
+      <option name="PROGRAM_PARAMETERS" value="text/ds_graph.txt text/ds_fail.txt" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -84,6 +104,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.run Network.main" />
+      <item itemvalue="Application.elect main" />
+      <item itemvalue="Application.fail main" />
+    </list>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -238,7 +263,9 @@
     <MESSAGE value="extend the shell script so that we can pass args." />
     <MESSAGE value="add code to express when the end of the simulation happens." />
     <MESSAGE value="tidy up print statements." />
-    <option name="LAST_COMMIT_MESSAGE" value="tidy up print statements." />
+    <MESSAGE value="Let nodes send many messages in a round, but only one per person." />
+    <MESSAGE value="Let nodes send many messages in a round, but only one per node." />
+    <option name="LAST_COMMIT_MESSAGE" value="Let nodes send many messages in a round, but only one per node." />
   </component>
   <component name="WindowStateProjectService">
     <state x="240" y="56" key="#Project_Structure" timestamp="1585301274404">
@@ -246,42 +273,42 @@
     </state>
     <state x="240" y="56" key="#Project_Structure/0.0.1280.800@0.0.1280.800" timestamp="1585301274404" />
     <state x="240" y="77" key="#Project_Structure/0.23.1280.777@0.23.1280.777" timestamp="1582370917892" />
-    <state x="115" y="38" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1582387082412">
+    <state x="115" y="38" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1585309564413">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state x="115" y="38" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.800@0.0.1280.800" timestamp="1582387082412" />
+    <state x="115" y="38" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.800@0.0.1280.800" timestamp="1585309564413" />
     <state x="388" y="167" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1582387078009">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
     <state x="388" y="167" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1280.800@0.0.1280.800" timestamp="1582387078009" />
-    <state x="273" y="23" width="733" height="776" key="CommitChangelistDialog2" timestamp="1585307159660">
+    <state x="273" y="23" width="733" height="776" key="CommitChangelistDialog2" timestamp="1585514979275">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state x="273" y="23" width="733" height="776" key="CommitChangelistDialog2/0.0.1280.800@0.0.1280.800" timestamp="1585307159660" />
+    <state x="273" y="23" width="733" height="776" key="CommitChangelistDialog2/0.0.1280.800@0.0.1280.800" timestamp="1585514979275" />
     <state x="273" y="23" key="CommitChangelistDialog2/0.23.1280.777@0.23.1280.777" timestamp="1585306599903" />
     <state x="128" y="80" key="DiffContextDialog" timestamp="1584098237647">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
     <state x="128" y="80" key="DiffContextDialog/0.0.1280.800@0.0.1280.800" timestamp="1584098237647" />
-    <state width="1238" height="2" key="GridCell.Tab.0.bottom" timestamp="1585306983199">
+    <state width="1238" height="67" key="GridCell.Tab.0.bottom" timestamp="1585514979344">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1238" height="2" key="GridCell.Tab.0.bottom/0.0.1280.800@0.0.1280.800" timestamp="1585306983199" />
+    <state width="1238" height="67" key="GridCell.Tab.0.bottom/0.0.1280.800@0.0.1280.800" timestamp="1585514979344" />
     <state width="1238" height="90" key="GridCell.Tab.0.bottom/0.23.1280.777@0.23.1280.777" timestamp="1585304761378" />
-    <state width="1238" height="2" key="GridCell.Tab.0.center" timestamp="1585306983198">
+    <state width="1238" height="67" key="GridCell.Tab.0.center" timestamp="1585514979343">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1238" height="2" key="GridCell.Tab.0.center/0.0.1280.800@0.0.1280.800" timestamp="1585306983198" />
+    <state width="1238" height="67" key="GridCell.Tab.0.center/0.0.1280.800@0.0.1280.800" timestamp="1585514979343" />
     <state width="1238" height="90" key="GridCell.Tab.0.center/0.23.1280.777@0.23.1280.777" timestamp="1585304761371" />
-    <state width="1238" height="2" key="GridCell.Tab.0.left" timestamp="1585306983197">
+    <state width="1238" height="67" key="GridCell.Tab.0.left" timestamp="1585514979342">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1238" height="2" key="GridCell.Tab.0.left/0.0.1280.800@0.0.1280.800" timestamp="1585306983197" />
+    <state width="1238" height="67" key="GridCell.Tab.0.left/0.0.1280.800@0.0.1280.800" timestamp="1585514979342" />
     <state width="1238" height="90" key="GridCell.Tab.0.left/0.23.1280.777@0.23.1280.777" timestamp="1585304761370" />
-    <state width="1238" height="2" key="GridCell.Tab.0.right" timestamp="1585306983199">
+    <state width="1238" height="67" key="GridCell.Tab.0.right" timestamp="1585514979344">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1238" height="2" key="GridCell.Tab.0.right/0.0.1280.800@0.0.1280.800" timestamp="1585306983199" />
+    <state width="1238" height="67" key="GridCell.Tab.0.right/0.0.1280.800@0.0.1280.800" timestamp="1585514979344" />
     <state width="1238" height="90" key="GridCell.Tab.0.right/0.23.1280.777@0.23.1280.777" timestamp="1585304761372" />
     <state x="128" y="23" key="SettingsEditor" timestamp="1582371349929">
       <screen x="0" y="23" width="1280" height="777" />
