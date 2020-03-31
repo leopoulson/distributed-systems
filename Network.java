@@ -46,7 +46,6 @@ public class Network {
 		logFile = new File(logFileName);
 		try {
 			BufferedWriter bw = new BufferedWriter(new FileWriter(logFile));
-			bw.write("Part A\n");
 			bw.close();
 		}
 		catch (IOException e) {
@@ -94,9 +93,6 @@ public class Network {
 			// This just lets the simulation exit early if the network becomes disconnected.
 			if (this.isDisconnected) return;
 
-			// We start part B at round 50.
-			// All that this amounts to is that we just log
-			if (round == 50) { log("\nPart B"); }
 			playRound(round);
  		}
 
