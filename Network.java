@@ -96,7 +96,7 @@ public class Network {
 			playRound(round);
  		}
 
-		log("Simulation completed. ");
+		log("Simulation completed.");
 	}
 
 	// Here we have the main logic of what happens in a round.

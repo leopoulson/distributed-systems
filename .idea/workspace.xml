@@ -4,10 +4,6 @@
     <list default="true" id="60d5b923-ea9b-447a-b962-2579f3f15fe9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Network.java" beforeDir="false" afterPath="$PROJECT_DIR$/Network.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/network/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/network/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/network/Action.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/network/Action.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/network/Network.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/network/Network.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/network/Node.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/network/Node.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -247,7 +243,14 @@
       <option name="project" value="LOCAL" />
       <updated>1585514994688</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="remove logging of Part A, B">
+      <created>1585641625205</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1585641625213</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -273,7 +276,8 @@
     <MESSAGE value="Let nodes send many messages in a round, but only one per person." />
     <MESSAGE value="Let nodes send many messages in a round, but only one per node." />
     <MESSAGE value="comment code." />
-    <option name="LAST_COMMIT_MESSAGE" value="comment code." />
+    <MESSAGE value="remove logging of Part A, B" />
+    <option name="LAST_COMMIT_MESSAGE" value="remove logging of Part A, B" />
   </component>
   <component name="WindowStateProjectService">
     <state x="240" y="56" key="#Project_Structure" timestamp="1585301274404">
@@ -289,10 +293,10 @@
       <screen x="0" y="0" width="1280" height="800" />
     </state>
     <state x="388" y="167" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1280.800@0.0.1280.800" timestamp="1582387078009" />
-    <state x="273" y="23" width="733" height="776" key="CommitChangelistDialog2" timestamp="1585514994087">
+    <state x="273" y="23" width="733" height="776" key="CommitChangelistDialog2" timestamp="1585641624058">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state x="273" y="23" width="733" height="776" key="CommitChangelistDialog2/0.0.1280.800@0.0.1280.800" timestamp="1585514994087" />
+    <state x="273" y="23" width="733" height="776" key="CommitChangelistDialog2/0.0.1280.800@0.0.1280.800" timestamp="1585641624058" />
     <state x="273" y="23" key="CommitChangelistDialog2/0.23.1280.777@0.23.1280.777" timestamp="1585306599903" />
     <state x="128" y="80" key="DiffContextDialog" timestamp="1584098237647">
       <screen x="0" y="0" width="1280" height="800" />
